@@ -6,10 +6,24 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
 
+/**
+ * @brief Top level class for the robot program.
+ */
 public final class Main {
-  private Main() {}
 
+  /**
+   * @brief Private constructor for main.
+   */
+  private Main() 
+  {
+    // Intentionally Empty
+  } // END CONSTRUCTOR MAIN
+
+  /**
+   * @brief Program entry point.
+   * @param args Arguments for the program.
+   */
   public static void main(String... args) {
     RobotBase.startRobot(Robot::new);
-  }
-}
+  } // END METHOD MAIN
+} // END CLASS MAIN

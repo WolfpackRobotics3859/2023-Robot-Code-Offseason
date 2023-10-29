@@ -8,30 +8,52 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+/**
+ * @brief Robot class that exposes processing.
+ */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
+  /**
+   * @brief Runs once on boot-up or code reset.
+   */
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    RoboLogger.init();
   }
 
+  /**
+   * @brief Loops no matter what state the robot is in.
+   */
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
   }
 
+  /**
+   * @brief Runs once upon robot disabling.
+   */
   @Override
   public void disabledInit() {}
 
+  /**
+   * @brief Loops while the robot is disabled.
+   */
   @Override
   public void disabledPeriodic() {}
 
+  /**
+   * @brief Runs once upon exit from disabled.
+   */
   @Override
   public void disabledExit() {}
 
+  /**
+   * @brief Runs once when autonomous begins.
+   */
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -41,12 +63,21 @@ public class Robot extends TimedRobot {
     }
   }
 
+  /**
+   * @brief Loops during autonmous period.
+   */
   @Override
   public void autonomousPeriodic() {}
 
+  /**
+   * @brief Runs once upon exit from autonomous.
+   */
   @Override
   public void autonomousExit() {}
 
+  /**
+   * @brief Runs once at the beginning of teleop.
+   */
   @Override
   public void teleopInit() {
     if (m_autonomousCommand != null) {
@@ -54,20 +85,35 @@ public class Robot extends TimedRobot {
     }
   }
 
+  /**
+   * @brief Loops during teleop period.
+   */
   @Override
   public void teleopPeriodic() {}
 
+  /**
+   * @brief Runs once upon exit from teleop.
+   */
   @Override
   public void teleopExit() {}
 
+  /**
+   * @brief Runs once when testing starts.
+   */
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
   }
 
+  /**
+   * @brief Loops during testing.
+   */
   @Override
   public void testPeriodic() {}
 
+  /**
+   * @brief Runs once upon exit from testing.
+   */
   @Override
   public void testExit() {}
 }
