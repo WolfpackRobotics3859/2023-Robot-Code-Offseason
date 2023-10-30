@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.RobotBase;
 /**
  * @brief Top level class for the robot program.
  */
-public final class Main {
+public final class Main 
+{
 
   /**
    * @brief Private constructor for main.
@@ -23,7 +24,9 @@ public final class Main {
    * @brief Program entry point.
    * @param args Arguments for the program.
    */
-  public static void main(String... args) {
+  public static void main(String... args) 
+  {
     RobotBase.startRobot(Robot::new);
-  } // END METHOD MAIN
+  }
+   
 } // END CLASS MAIN

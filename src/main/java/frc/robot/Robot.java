@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 /**
  * @brief Robot class that exposes processing.
  */
-public class Robot extends TimedRobot {
+public class Robot extends TimedRobot 
+{
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -20,7 +21,8 @@ public class Robot extends TimedRobot {
    * @brief Runs once on boot-up or code reset.
    */
   @Override
-  public void robotInit() {
+  public void robotInit() 
+  {
     m_robotContainer = new RobotContainer();
     RoboLogger.init();
   }
@@ -29,7 +31,8 @@ public class Robot extends TimedRobot {
    * @brief Loops no matter what state the robot is in.
    */
   @Override
-  public void robotPeriodic() {
+  public void robotPeriodic() 
+  {
     CommandScheduler.getInstance().run();
   }
 
@@ -37,25 +40,35 @@ public class Robot extends TimedRobot {
    * @brief Runs once upon robot disabling.
    */
   @Override
-  public void disabledInit() {}
+  public void disabledInit()
+  {
+    // Intentionally Empty
+  }
 
   /**
    * @brief Loops while the robot is disabled.
    */
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() 
+  {
+    // Intentionally Empty
+  }
 
   /**
    * @brief Runs once upon exit from disabled.
    */
   @Override
-  public void disabledExit() {}
+  public void disabledExit()
+  {
+    // Intentionally Empty
+  }
 
   /**
    * @brief Runs once when autonomous begins.
    */
   @Override
-  public void autonomousInit() {
+  public void autonomousInit() 
+  {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
@@ -67,19 +80,26 @@ public class Robot extends TimedRobot {
    * @brief Loops during autonmous period.
    */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic()
+  {
+    // Intentionally Empty
+  }
 
   /**
    * @brief Runs once upon exit from autonomous.
    */
   @Override
-  public void autonomousExit() {}
+  public void autonomousExit() 
+  {
+    // Intentionally Empty
+  }
 
   /**
    * @brief Runs once at the beginning of teleop.
    */
   @Override
-  public void teleopInit() {
+  public void teleopInit() 
+  {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -89,19 +109,26 @@ public class Robot extends TimedRobot {
    * @brief Loops during teleop period.
    */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic()
+  {
+    // Intentionally Empty
+  }
 
   /**
    * @brief Runs once upon exit from teleop.
    */
   @Override
-  public void teleopExit() {}
+  public void teleopExit()
+  {
+    // Intentionally Empty
+  }
 
   /**
    * @brief Runs once when testing starts.
    */
   @Override
-  public void testInit() {
+  public void testInit()
+  {
     CommandScheduler.getInstance().cancelAll();
   }
 
@@ -109,11 +136,18 @@ public class Robot extends TimedRobot {
    * @brief Loops during testing.
    */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic()
+  {
+    // Intentionally Empty
+  }
 
   /**
    * @brief Runs once upon exit from testing.
    */
   @Override
-  public void testExit() {}
-}
+  public void testExit() 
+  {
+    // Intentionally Empty
+  }
+
+} // END CLASS ROBOT
