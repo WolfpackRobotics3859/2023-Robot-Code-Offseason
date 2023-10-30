@@ -7,6 +7,9 @@ import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 
+/**
+ * @brief Class to start logger and initialize custom logger fields.
+ */
 public class RoboLogger 
 {
    // BEGIN CUSTOM LOG ENTRIES
@@ -49,12 +52,13 @@ public class RoboLogger
        * fields all you have to do is key.append(value) in robot code. For 
        * example mBooleanLogExample.append(true);
        */
-      
+
       mBooleanLogExample = new BooleanLogEntry(log, "example/Boolean");
 
       mDoubleLogExample = new DoubleLogEntry(log, "example/Double");
 
       mStringLogExample = new StringLogEntry(log, "example/String");
 
-   } // END METHOD INIT()
+   } 
+
 } // END CLASS ROBOLOGGER
