@@ -28,6 +28,7 @@ public class RobotContainer
     mDriverController.a().onTrue(new FireShortCone(mArm).andThen(new Stow(mArm)));
     mDriverController.b().onTrue(new FireLongCone(mArm).andThen(new Stow(mArm)));
     mDriverController.y().onTrue(mArm.zeroSensor());
+    mDriverController.rightBumper().onTrue(mArm.playTheMusic());
   }
 
   public Command getAutonomousCommand() 
