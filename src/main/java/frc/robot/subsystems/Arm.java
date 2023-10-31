@@ -4,12 +4,15 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.music.Orchestra;
 import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,8 +26,14 @@ public class Arm extends SubsystemBase
 {
   // Add these numbers to constants once the constants issue is completed.
   private static TalonFX mTalon1 = new TalonFX(12);
+  private static TalonFX mTalon2 = new TalonFX(13);
   private static CANCoder mEncoder1 = new CANCoder(5);
   private static TalonFXConfiguration mTalon1Config = new TalonFXConfiguration();
+  private static Orchestra musica;
+
+  private ArrayList<TalonFX> instruments;
+
+  String theSong = "theSong.chrp";
 
   /**
    * @brief Creates the Arm subsystem.
@@ -50,6 +59,11 @@ public class Arm extends SubsystemBase
     SmartDashboard.setDefaultNumber("Arm Motion 1 Ending Position", 300);
     SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Ending Position", 0);
     SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Ending Position", 0);
+
+    instruments.add(mTalon1);
+    instruments.add(mTalon2);
+    musica = new Orchestra(instruments);
+    musica.loadMusic(theSong);
   }
 
   public CommandBase zeroSensor()
@@ -57,6 +71,14 @@ public class Arm extends SubsystemBase
     return runOnce(
       () -> {
         mEncoder1.setPosition(0);
+      });
+  }
+
+  public CommandBase playTheMusic()
+  {
+    return runOnce(
+      () -> {
+        musica.play();
       });
   }
 
