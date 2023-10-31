@@ -13,6 +13,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.commands.arm.FirePositionOne;
+import frc.robot.commands.arm.FirePositionTwo;
+import frc.robot.commands.arm.Stow;
+import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -25,26 +29,26 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class RobotContainer 
 {
-  public final static CommandXboxController primaryController = new CommandXboxController(0);
+  private final CommandXboxController mDriverController = new CommandXboxController(0);
   public final static CommandXboxController secondaryController = new CommandXboxController(1);
-  
+
+  private final Arm mArm = new Arm();
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
-  private final JoystickButton robotCentric = new JoystickButton(primaryController.getHID(), XboxController.Button.kRightBumper.value);
+  private final JoystickButton robotCentric = new JoystickButton(mDriverController.getHID(), XboxController.Button.kRightBumper.value);
 
   public RobotContainer() 
   {
-    
      driveSubsystem.setDefaultCommand(
       new DriveCommand(
           driveSubsystem, 
-          () -> primaryController.getRawAxis(translationAxis)*0.80, 
-          () -> primaryController.getRawAxis(strafeAxis)*0.80, 
-          () -> -primaryController.getRawAxis(rotationAxis)*0.80, 
+          () -> mDriverController.getRawAxis(translationAxis)*0.80, 
+          () -> mDriverController.getRawAxis(strafeAxis)*0.80, 
+          () -> mDriverController.getRawAxis(rotationAxis)*0.80, 
           () -> robotCentric.getAsBoolean()
         )
     );
@@ -63,6 +67,7 @@ public class RobotContainer
     secondaryController.povDown().whileTrue(new DriveCommand(driveSubsystem, () -> -0.1, () ->0, () -> 0, () -> true));
     
     configureBindings();
+
   }
 
   private void configureBindings() 
@@ -74,7 +79,8 @@ public class RobotContainer
 
     secondaryController.rightBumper().onTrue(new InstantCommand(() -> {clawSubsystem.setArmState(!clawSubsystem.isClawEngaged());}));
     
-
+    secondaryController.a().onTrue(new FirePositionOne(mArm).andThen(new Stow(mArm)));
+    secondaryController.b().onTrue(new FirePositionTwo(mArm).andThen(new Stow(mArm)));
   }
 
   public Command getAutonomousCommand() 
