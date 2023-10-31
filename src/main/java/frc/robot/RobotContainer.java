@@ -6,17 +6,27 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.arm.FirePositionOne;
+import frc.robot.commands.arm.FirePositionTwo;
+import frc.robot.commands.arm.Stow;
+import frc.robot.subsystems.Arm;
 
 public class RobotContainer 
 {
+  private final Arm mArm = new Arm();
+
+  private final CommandXboxController mDriverController = new CommandXboxController(0);
+
   public RobotContainer() 
   {
-    configureBindings();
+    this.configureBindings();
   }
 
   private void configureBindings() 
   {
-    // Empty for now.
+    mDriverController.a().onTrue(new FirePositionOne(mArm).andThen(new Stow(mArm)));
+    mDriverController.b().onTrue(new FirePositionTwo(mArm).andThen(new Stow(mArm)));
   }
 
   public Command getAutonomousCommand() 
