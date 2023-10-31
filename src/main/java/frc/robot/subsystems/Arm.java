@@ -43,19 +43,53 @@ public class Arm extends SubsystemBase
     mEncoder1.configSensorDirection(true);
     mTalon1.configVoltageCompSaturation(8);
     mTalon1.enableVoltageCompensation(true);
+
+    SmartDashboard.setDefaultNumber("Arm Motion 1 Speed", 0.92);
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Speed", 0);
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Speed", 0);
+    SmartDashboard.setDefaultNumber("Arm Motion 1 Ending Position", 300);
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Ending Position", 0);
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Ending Position", 0);
   }
 
-  public CommandBase setMotorToCoast()
+  public CommandBase zeroSensor()
   {
     return runOnce(
       () -> {
-        mTalon1.setNeutralMode(NeutralMode.Coast);
+        mEncoder1.setPosition(0);
       });
   }
 
   public void setPercent(double percentage)
   {
     mTalon1.set(ControlMode.PercentOutput, percentage);
+  }
+
+  public boolean runSingleSegmentThrow(double power, double endingPosition)
+  {
+    if(reachedGoalPosition(endingPosition))
+    {
+      return true;
+    }
+    mTalon1.set(ControlMode.PercentOutput, power);
+    return false;
+  }
+
+  public boolean runDoubleSegmentThrow(double segment1Speed, double segment1EndingPosition, double segment2Speed, double segment2EndingPosition)
+  {
+    if(reachedGoalPosition(segment2EndingPosition))
+    {
+      return true;
+    }
+    if(reachedGoalPosition(segment1EndingPosition))
+    {
+      mTalon1.set(ControlMode.PercentOutput, segment2Speed);
+    }
+    else
+    {
+      mTalon1.set(ControlMode.PercentOutput, segment1Speed);
+    }
+    return false;
   }
 
   public void enableCoasting()
@@ -74,14 +108,9 @@ public class Arm extends SubsystemBase
     this.setPercent(0);
   }
 
-  public boolean reachedPositionOne()
+  public boolean reachedGoalPosition(double position)
   {
-    return mTalon1.getSelectedSensorPosition() > 0;
-  }
-
-  public boolean reachedPositionTwo()
-  {
-    return mTalon1.getSelectedSensorPosition() > 300;
+    return mTalon1.getSelectedSensorPosition() > position;
   }
 
   public boolean reachedLowerSoftStop()
@@ -96,8 +125,5 @@ public class Arm extends SubsystemBase
   public void periodic() 
   {
     SmartDashboard.putNumber("Thrower Motor Units", mTalon1.getSelectedSensorPosition());
-    SmartDashboard.putBoolean("Reached Position One", this.reachedPositionOne());
-    SmartDashboard.putBoolean("Reached Position Two", this.reachedPositionTwo());
-    SmartDashboard.putBoolean("Reached Lower Soft Stop", this.reachedLowerSoftStop());
   }
 }

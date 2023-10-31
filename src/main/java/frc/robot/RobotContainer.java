@@ -3,22 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.commands.arm.FirePositionOne;
-import frc.robot.commands.arm.FirePositionTwo;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.arm.FireLongCone;
+import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Stow;
 import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.claw.ClawCloseCommand;
@@ -78,9 +72,10 @@ public class RobotContainer
     secondaryController.povDown().whileTrue(new DriveCommand(driveSubsystem, () -> -0.1, () ->0, () -> 0, () -> true));
 
     secondaryController.rightBumper().onTrue(new InstantCommand(() -> {clawSubsystem.setArmState(!clawSubsystem.isClawEngaged());}));
-    
-    secondaryController.a().onTrue(new FirePositionOne(mArm).andThen(new Stow(mArm)));
-    secondaryController.b().onTrue(new FirePositionTwo(mArm).andThen(new Stow(mArm)));
+
+    mDriverController.a().onTrue(new FireShortCone(mArm).andThen(new Stow(mArm)));
+    mDriverController.b().onTrue(new FireLongCone(mArm).andThen(new Stow(mArm)));
+    mDriverController.y().onTrue(mArm.zeroSensor());
   }
 
   public Command getAutonomousCommand() 
