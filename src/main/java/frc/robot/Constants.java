@@ -14,47 +14,47 @@ public final class Constants
         /**
          * @brief The CAN ID of swerve module 1's rotation motor.
          */
-        public static final int MOTOR_SWERVE_1_ROTATION_ID = 0;
+        public static final int MOTOR_SWERVE_1_ROTATION_ID = 2;
 
         /**
          * @brief The CAN ID of swerve module 1's thrust motor.
          */
-        public static final int MOTOR_SWERVE_1_THRUST_ID = 0;
+        public static final int MOTOR_SWERVE_1_THRUST_ID = 1;
 
         /**
          * @brief The CAN ID of swerve module 1's encoder.
          */
-        public static final int ENCODER_SWERVE_1 = 0;
+        public static final int ENCODER_SWERVE_1 = 1;
 
         /**
          * @brief The CAN ID of swerve module 2's rotation motor.
          */
-        public static final int MOTOR_SWERVE_2_ROTATION_ID = 0;
+        public static final int MOTOR_SWERVE_2_ROTATION_ID = 4;
 
         /**
          * @brief The CAN ID of swerve module 2's thrust motor.
          */
-        public static final int MOTOR_SWERVE_2_THRUST_ID = 0;
+        public static final int MOTOR_SWERVE_2_THRUST_ID = 3;
 
         /**
          * @brief The CAN ID of swerve module 2's encoder.
          */
-        public static final int ENCODER_SWERVE_2 = 0;
+        public static final int ENCODER_SWERVE_2 = 2;
 
         /**
          * @brief The CAN ID of swerve module 3's rotation motor.
          */
-        public static final int MOTOR_SWERVE_3_ROTATION_ID = 0;
+        public static final int MOTOR_SWERVE_3_ROTATION_ID = 6;
 
         /**
          * @brief The CAN ID of swerve module 3's thrust motor.
          */
-        public static final int MOTOR_SWERVE_3_THRUST_ID = 0;
+        public static final int MOTOR_SWERVE_3_THRUST_ID = 5;
 
         /**
          * @brief The CAN ID of swerve module 3's encoder.
          */
-        public static final int ENCODER_SWERVE_3 = 0;
+        public static final int ENCODER_SWERVE_3 = 3;
 
         /**
          * @brief The CAN ID of swerve module 4's rotation motor.
@@ -70,6 +70,16 @@ public final class Constants
          * @brief The CAN ID of swerve module 4's encoder.
          */
         public static final int ENCODER_SWERVE_4 = 0;
+
+        public static final int MOTOR_ARM_1 = 12;
+
+        public static final int MOTOR_ARM_2 = 0;
+
+        public static final int ENCODER_ARM = 3;
+
+        public static final int MOTOR_CLAW = 0;
+
+        public static final int IMU_PIDGEON = 0;
 
     } // END CLASS HARDWARE
 
