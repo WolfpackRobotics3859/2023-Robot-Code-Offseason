@@ -31,9 +31,9 @@ public class DriveCommand extends CommandBase {
     @Override
     public void execute() {
         /* Get Values, Deadband*/
-        double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), 0.1);
-        double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), 0.1);
-        double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), 0.1);
+        double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), 0.03);
+        double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), 0.03);
+        double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), 0.03);
         
 
         /* Drive */
@@ -43,5 +43,10 @@ public class DriveCommand extends CommandBase {
             !robotCentricSup.getAsBoolean(), 
             true
         );
+    }
+
+    @Override
+    public void end(boolean interupted) {
+        s_Swerve.drive(new Translation2d(), 0, false, true);
     }
 }
