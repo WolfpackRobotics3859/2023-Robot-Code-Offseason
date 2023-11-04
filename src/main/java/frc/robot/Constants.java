@@ -14,12 +14,14 @@ import frc.lib.util.SwerveModuleConstants;
 
 /** Add your docs here. */
 public class Constants {
+<<<<<<< HEAD
     public static class ClawConstants {
         public static final int clawMotorId = 20;
     }
     public static class SwerveConstants {
         public static final int pigeonID = 42;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+
+
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(20.35); //TODO: This must be tuned to specific robot //20.35
         public static final double wheelBase = Units.inchesToMeters(20.35); //TODO: This must be tuned to specific robot //15.25
