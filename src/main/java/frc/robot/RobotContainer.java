@@ -3,10 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.drive.DriveCommand;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.arm.FireLongCone;
 import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Stow;
@@ -17,10 +20,27 @@ public class RobotContainer
   private final Arm mArm = new Arm();
 
   private final CommandXboxController mDriverController = new CommandXboxController(0);
+  public final static CommandXboxController secondaryController = new CommandXboxController(1);
+  
+  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  private final int translationAxis = XboxController.Axis.kLeftY.value;
+  private final int strafeAxis = XboxController.Axis.kLeftX.value;
+  private final int rotationAxis = XboxController.Axis.kRightX.value;
+
+  private final JoystickButton robotCentric = new JoystickButton(mDriverController.getHID(), XboxController.Button.kRightBumper.value);
 
   public RobotContainer() 
-  {
-    this.configureBindings();
+  { 
+     driveSubsystem.setDefaultCommand(
+      new DriveCommand(
+          driveSubsystem, 
+          () -> mDriverController.getRawAxis(translationAxis)*0.80, 
+          () -> mDriverController.getRawAxis(strafeAxis)*0.80, 
+          () -> -mDriverController.getRawAxis(rotationAxis)*0.80, 
+          () -> robotCentric.getAsBoolean()
+        )
+    );
+    configureBindings();
   }
 
   private void configureBindings() 
@@ -29,6 +49,10 @@ public class RobotContainer
     mDriverController.b().onTrue(new FireLongCone(mArm).andThen(new Stow(mArm)));
     mDriverController.y().onTrue(mArm.zeroSensor());
     mDriverController.rightBumper().onTrue(mArm.playTheMusic());
+    secondaryController.povLeft().or(secondaryController.povDownLeft()).or(secondaryController.povUpLeft()).whileTrue(new DriveCommand(driveSubsystem, () -> 0.0, () ->0.1, () -> 0, () -> true));
+    secondaryController.povRight().or(secondaryController.povDownRight()).or(secondaryController.povUpRight()).whileTrue(new DriveCommand(driveSubsystem, () -> 0, () ->-0.1, () -> 0, () -> true));
+    secondaryController.povUp().whileTrue(new DriveCommand(driveSubsystem, () -> 0.1, () ->0, () -> 0, () -> true));
+    secondaryController.povDown().whileTrue(new DriveCommand(driveSubsystem, () -> -0.1, () ->0, () -> 0, () -> true));
   }
 
   public Command getAutonomousCommand() 

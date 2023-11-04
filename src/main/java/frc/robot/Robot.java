@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.lib.util.CTREConfigs;
 
 /**
  * @brief Robot class that exposes processing.
@@ -14,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot 
 {
   private Command m_autonomousCommand;
-
+  public static CTREConfigs ctreConfigs;
   private RobotContainer m_robotContainer;
 
   /**
@@ -23,6 +24,7 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit() 
   {
+    ctreConfigs = new CTREConfigs();
     m_robotContainer = new RobotContainer();
     RoboLogger.init();
   }
