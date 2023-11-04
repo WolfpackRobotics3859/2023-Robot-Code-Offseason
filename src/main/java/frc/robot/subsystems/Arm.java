@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.music.Orchestra;
 import com.ctre.phoenix.sensors.CANCoder;
 
@@ -26,12 +24,10 @@ public class Arm extends SubsystemBase
 {
   // Add these numbers to constants once the constants issue is completed.
   private static TalonFX mTalon1 = new TalonFX(12);
-  private static TalonFX mTalon2 = new TalonFX(13);
   private static CANCoder mEncoder1 = new CANCoder(5);
-  private static TalonFXConfiguration mTalon1Config = new TalonFXConfiguration();
   private static Orchestra musica;
 
-  private ArrayList<TalonFX> instruments;
+  private ArrayList<TalonFX> instruments = new ArrayList<>();
 
   String theSong = "theSong.chrp";
 
@@ -41,29 +37,29 @@ public class Arm extends SubsystemBase
   public Arm()
   {
     mTalon1.configFactoryDefault();
-    // mTalon1Config.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();
     mTalon1.configRemoteFeedbackFilter(mEncoder1, 0);
     mTalon1.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
     mTalon1.setSelectedSensorPosition(0);
-    // mTalon1.configAllSettings(mTalon1Config);
     mTalon1.setSensorPhase(true);
     mTalon1.setNeutralMode(NeutralMode.Coast);
     mTalon1.setInverted(true);
     mEncoder1.configSensorDirection(true);
     mTalon1.configVoltageCompSaturation(8);
-    mTalon1.enableVoltageCompensation(true);
+    mTalon1.enableVoltageCompensation(true);;
 
-    SmartDashboard.setDefaultNumber("Arm Motion 1 Speed", 0.92);
-    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Speed", 0);
-    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Speed", 0);
-    SmartDashboard.setDefaultNumber("Arm Motion 1 Ending Position", 300);
-    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Ending Position", 0);
-    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Ending Position", 0);
+    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 1 Speed", 0.95);
+    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 2 Speed", 0.7);
+
+    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 1 Ending Position", 275);
+    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 2 Ending Position", 450);
+
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Speed", 0.8);
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Speed", 0.5);
+    
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Ending Position", 400);
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Ending Position", 800);
 
     instruments.add(mTalon1);
-    instruments.add(mTalon2);
-    musica = new Orchestra(instruments);
-    musica.loadMusic(theSong);
   }
 
   public CommandBase zeroSensor()

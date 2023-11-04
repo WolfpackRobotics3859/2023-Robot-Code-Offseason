@@ -10,6 +10,7 @@ import frc.robot.subsystems.Arm;
 
 public class FireLongCone extends CommandBase {
   private Arm mArm;
+  private double seg1Speed, seg2Speed, seg1End, seg2End;
 
   /** Creates a new FirePositionOne. */
   public FireLongCone(Arm arm) {
@@ -21,7 +22,10 @@ public class FireLongCone extends CommandBase {
   @Override
   public void initialize()
   {
-    // Intentionally Empty
+    seg1Speed = SmartDashboard.getNumber("Arm Motion 1 Segment 1 Speed", 0);
+    seg2Speed = SmartDashboard.getNumber("Arm Motion 1 Segment 2 Speed", 0);
+    seg1End = SmartDashboard.getNumber("Arm Motion 1 Segment 1 Ending Position", 0);
+    seg2End = SmartDashboard.getNumber("Arm Motion 1 Segment 2 Ending Position", 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,6 +45,6 @@ public class FireLongCone extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return mArm.runSingleSegmentThrow(SmartDashboard.getNumber("Arm Motion 1 Speed", 0.92), SmartDashboard.getNumber("Arm Motion 1 Ending Position", 300));
+    return mArm.runDoubleSegmentThrow(seg1Speed, seg1End, seg2Speed, seg2End);
   }
 }
