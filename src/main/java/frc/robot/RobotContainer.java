@@ -4,13 +4,52 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.drive.DriveCommand;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class RobotContainer 
 {
+  public final static CommandXboxController primaryController = new CommandXboxController(0);
+  public final static CommandXboxController secondaryController = new CommandXboxController(1);
+  
+  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  private final int translationAxis = XboxController.Axis.kLeftY.value;
+  private final int strafeAxis = XboxController.Axis.kLeftX.value;
+  private final int rotationAxis = XboxController.Axis.kRightX.value;
+
+  private final JoystickButton robotCentric = new JoystickButton(primaryController.getHID(), XboxController.Button.kRightBumper.value);
+
   public RobotContainer() 
   {
+    
+     driveSubsystem.setDefaultCommand(
+      new DriveCommand(
+          driveSubsystem, 
+          () -> primaryController.getRawAxis(translationAxis)*0.80, 
+          () -> primaryController.getRawAxis(strafeAxis)*0.80, 
+          () -> -primaryController.getRawAxis(rotationAxis)*0.80, 
+          () -> robotCentric.getAsBoolean()
+        )
+    );
+
+
+    secondaryController.povLeft().or(secondaryController.povDownLeft()).or(secondaryController.povUpLeft()).whileTrue(new DriveCommand(driveSubsystem, () -> 0.0, () ->0.1, () -> 0, () -> true));
+    secondaryController.povRight().or(secondaryController.povDownRight()).or(secondaryController.povUpRight()).whileTrue(new DriveCommand(driveSubsystem, () -> 0, () ->-0.1, () -> 0, () -> true));
+    secondaryController.povUp().whileTrue(new DriveCommand(driveSubsystem, () -> 0.1, () ->0, () -> 0, () -> true));
+    secondaryController.povDown().whileTrue(new DriveCommand(driveSubsystem, () -> -0.1, () ->0, () -> 0, () -> true));
+    
     configureBindings();
   }
 
