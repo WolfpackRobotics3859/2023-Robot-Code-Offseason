@@ -71,16 +71,33 @@ public final class Constants
          */
         public static final int ENCODER_SWERVE_4 = 0;
 
+        /**
+         * @brief The CAN ID of the arm's primary motor.
+         */
         public static final int MOTOR_ARM_1 = 12;
 
+        /**
+         * @brief The CAN ID of the arm's secondary motor.
+         */
         public static final int MOTOR_ARM_2 = 0;
 
+        /**
+         * @brief The CAN ID of the arm's encoder.
+         */
         public static final int ENCODER_ARM = 3;
 
+        /**
+         * @brief The CAN ID of the claw's motor.
+         */
         public static final int MOTOR_CLAW = 0;
 
-        public static final int IMU_PIDGEON = 0;
+        /**
+         * @brief The CAN ID of the central IMU.
+         */
+        public static final int IMU = 0;
 
+        public static Throw SHORT_SHOT = new Throw();
+       
     } // END CLASS HARDWARE
 
 } // END CLASS CONSTANTS
