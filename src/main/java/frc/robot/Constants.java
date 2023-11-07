@@ -14,9 +14,11 @@ import frc.lib.util.SwerveModuleConstants;
 
 /** Add your docs here. */
 public class Constants {
+  
     public static class ClawConstants {
         public static final int clawMotorId = 20;
     }
+  
     public static class SwerveConstants {
         public static final int pigeonID = 42;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
