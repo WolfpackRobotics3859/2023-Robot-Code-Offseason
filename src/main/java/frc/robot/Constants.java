@@ -14,7 +14,6 @@ import frc.lib.util.SwerveModuleConstants;
 
 /** Add your docs here. */
 public class Constants {
-<<<<<<< HEAD
     public static class ClawConstants {
         public static final int clawMotorId = 20;
     }

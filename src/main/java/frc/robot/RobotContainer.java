@@ -4,28 +4,23 @@
 
 package frc.robot;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.drive.DriveCommand;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.arm.FireLongCone;
 import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Stow;
 import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.claw.ClawCloseCommand;
 import frc.robot.commands.claw.ClawOpenCommand;
-import frc.robot.commands.drive.DriveCommand;
 import frc.robot.subsystems.ClawSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 
 public class RobotContainer 
 {
@@ -83,7 +78,6 @@ public class RobotContainer
     mDriverController.b().onTrue(new FireLongCone(mArm).andThen(new Stow(mArm)));
     mDriverController.y().onTrue(mArm.zeroSensor());
     mDriverController.rightBumper().onTrue(mArm.playTheMusic());
-
   }
 
   public Command getAutonomousCommand() 
