@@ -56,11 +56,6 @@ public class RobotContainer
     SmartDashboard.putData(clawSubsystem);
     SmartDashboard.putData(new ClawCloseCommand(clawSubsystem));
     SmartDashboard.putData(new ClawOpenCommand(clawSubsystem));
-
-    secondaryController.povLeft().or(secondaryController.povDownLeft()).or(secondaryController.povUpLeft()).whileTrue(new DriveCommand(driveSubsystem, () -> 0.0, () ->0.1, () -> 0, () -> true));
-    secondaryController.povRight().or(secondaryController.povDownRight()).or(secondaryController.povUpRight()).whileTrue(new DriveCommand(driveSubsystem, () -> 0, () ->-0.1, () -> 0, () -> true));
-    secondaryController.povUp().whileTrue(new DriveCommand(driveSubsystem, () -> 0.1, () ->0, () -> 0, () -> true));
-    secondaryController.povDown().whileTrue(new DriveCommand(driveSubsystem, () -> -0.1, () ->0, () -> 0, () -> true));
     
     configureBindings();
   }
@@ -74,10 +69,14 @@ public class RobotContainer
 
     secondaryController.rightBumper().onTrue(new InstantCommand(() -> {clawSubsystem.setArmState(!clawSubsystem.isClawEngaged());}));
 
-    mDriverController.a().onTrue(new FireShortCone(mArm).andThen(new Stow(mArm)));
-    mDriverController.b().onTrue(new FireLongCone(mArm).andThen(new Stow(mArm)));
-    mDriverController.y().onTrue(mArm.zeroSensor());
-    mDriverController.rightBumper().onTrue(mArm.playTheMusic());
+    secondaryController.a().onTrue(new FireShortCone(mArm).andThen(new Stow(mArm)));
+    secondaryController.b().onTrue(new FireLongCone(mArm).andThen(new Stow(mArm)));
+    secondaryController.y().onTrue(mArm.zeroSensor());
+
+    secondaryController.povLeft().or(secondaryController.povDownLeft()).or(secondaryController.povUpLeft()).whileTrue(new DriveCommand(driveSubsystem, () -> 0.0, () ->0.1, () -> 0, () -> true));
+    secondaryController.povRight().or(secondaryController.povDownRight()).or(secondaryController.povUpRight()).whileTrue(new DriveCommand(driveSubsystem, () -> 0, () ->-0.1, () -> 0, () -> true));
+    secondaryController.povUp().whileTrue(new DriveCommand(driveSubsystem, () -> 0.1, () ->0, () -> 0, () -> true));
+    secondaryController.povDown().whileTrue(new DriveCommand(driveSubsystem, () -> -0.1, () ->0, () -> 0, () -> true));
   }
 
   public Command getAutonomousCommand() 
