@@ -19,7 +19,7 @@ public class Constants {
     }
     public static class SwerveConstants {
         public static final int pigeonID = 42;
-        public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
+        public static final boolean invertGyro = false; // Always ensure Gyro is CCW+
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(20.35); //TODO: This must be tuned to specific robot //20.35
         public static final double wheelBase = Units.inchesToMeters(20.35); //TODO: This must be tuned to specific robot //15.25
