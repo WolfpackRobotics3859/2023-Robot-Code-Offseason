@@ -30,6 +30,7 @@ public class RobotContainer
   
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
+
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
@@ -56,6 +57,11 @@ public class RobotContainer
     SmartDashboard.putData(clawSubsystem);
     SmartDashboard.putData(new ClawCloseCommand(clawSubsystem));
     SmartDashboard.putData(new ClawOpenCommand(clawSubsystem));
+
+    secondaryController.povLeft().or(secondaryController.povDownLeft()).or(secondaryController.povUpLeft()).whileTrue(new DriveCommand(driveSubsystem, () -> 0.0, () ->0.1, () -> 0, () -> true));
+    secondaryController.povRight().or(secondaryController.povDownRight()).or(secondaryController.povUpRight()).whileTrue(new DriveCommand(driveSubsystem, () -> 0, () ->-0.1, () -> 0, () -> true));
+    secondaryController.povUp().whileTrue(new DriveCommand(driveSubsystem, () -> 0.1, () ->0, () -> 0, () -> true));
+    secondaryController.povDown().whileTrue(new DriveCommand(driveSubsystem, () -> -0.1, () ->0, () -> 0, () -> true));
     
     configureBindings();
   }
