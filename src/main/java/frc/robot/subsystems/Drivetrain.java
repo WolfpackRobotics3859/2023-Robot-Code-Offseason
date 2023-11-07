@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveSubsystem extends SubsystemBase {
+public class Drivetrain extends SubsystemBase {
     public SwerveDrivePoseEstimator swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public PigeonIMU gyro;
@@ -36,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
     private boolean wasOdometrySeeded;
     private Alliance alliance;
 
-    public DriveSubsystem() {
+    public Drivetrain() {
         gyro = new PigeonIMU(Constants.SwerveConstants.pigeonID);
         gyro.configFactoryDefault();
         zeroGyro();

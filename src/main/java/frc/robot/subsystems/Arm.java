@@ -4,32 +4,23 @@
 
 package frc.robot.subsystems;
 
-import java.util.ArrayList;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.music.Orchestra;
 import com.ctre.phoenix.sensors.CANCoder;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 /**
  * @brief Arm subsystem for the 2023 Robot.
  */
 public class Arm extends SubsystemBase 
 {
-  // Add these numbers to constants once the constants issue is completed.
-  private static TalonFX mTalon1 = new TalonFX(12);
-  private static CANCoder mEncoder1 = new CANCoder(5);
-  private static Orchestra musica;
-
-  private ArrayList<TalonFX> instruments = new ArrayList<>();
-
-  String theSong = "theSong.chrp";
+  private static TalonFX mTalon1 = new TalonFX(Constants.ARM.MOTOR_ID);
+  private static CANCoder mEncoder1 = new CANCoder(Constants.CLAW.MOTOR_ID);
 
   /**
    * @brief Creates the Arm subsystem.
@@ -58,8 +49,6 @@ public class Arm extends SubsystemBase
     
     SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Ending Position", 400);
     SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Ending Position", 800);
-
-    instruments.add(mTalon1);
   }
 
   public CommandBase zeroSensor()
@@ -67,14 +56,6 @@ public class Arm extends SubsystemBase
     return runOnce(
       () -> {
         mEncoder1.setPosition(0);
-      });
-  }
-
-  public CommandBase playTheMusic()
-  {
-    return runOnce(
-      () -> {
-        musica.play();
       });
   }
 
@@ -133,7 +114,7 @@ public class Arm extends SubsystemBase
 
   public boolean reachedLowerSoftStop()
   {
-    return mTalon1.getSelectedSensorPosition() < 100;
+    return mTalon1.getSelectedSensorPosition() < Constants.ARM.LOWER_SOFT_STOP_POSITION;
   }
 
   /**
@@ -142,6 +123,6 @@ public class Arm extends SubsystemBase
   @Override
   public void periodic() 
   {
-    SmartDashboard.putNumber("Thrower Motor Units", mTalon1.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Arm - Encoder Value", mTalon1.getSelectedSensorPosition());
   }
 }

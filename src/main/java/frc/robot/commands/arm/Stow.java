@@ -7,7 +7,8 @@ package frc.robot.commands.arm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
-public class Stow extends CommandBase {
+public class Stow extends CommandBase
+{
   private Arm mArm;
   /** Creates a new Stow. */
   public Stow(Arm arm) 
@@ -27,7 +28,7 @@ public class Stow extends CommandBase {
   @Override
   public void execute() 
   {
-
+    // Intentionally Empty
   }
 
   // Called once the command ends or is interrupted.
@@ -39,7 +40,8 @@ public class Stow extends CommandBase {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
+  public boolean isFinished() 
+  {
     return this.mArm.reachedLowerSoftStop();
   }
 }

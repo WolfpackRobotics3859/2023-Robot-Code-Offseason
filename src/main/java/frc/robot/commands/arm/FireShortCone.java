@@ -8,12 +8,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
-public class FireShortCone extends CommandBase {
+public class FireShortCone extends CommandBase 
+{
   private Arm mArm;
-  private double seg1Speed, seg2Speed, seg1End, seg2End;
+  private double mSeg1Speed, mSeg2Speed, mSeg1End, mSeg2End;
 
-  /** Creates a new FirePositionOne. */
-  public FireShortCone(Arm arm) {
+  public FireShortCone(Arm arm) 
+  {
     addRequirements(arm);
     mArm = arm;
   }
@@ -22,10 +23,10 @@ public class FireShortCone extends CommandBase {
   @Override
   public void initialize()
   {
-    seg1Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Speed", 0.2);
-    seg2Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Speed", 0.4);
-    seg1End = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Ending Position", 300);
-    seg2End = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Ending Position", 400);
+    mSeg1Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Speed", 0.2);
+    mSeg2Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Speed", 0.4);
+    mSeg1End = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Ending Position", 300);
+    mSeg2End = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Ending Position", 400);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,7 +45,8 @@ public class FireShortCone extends CommandBase {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return mArm.runDoubleSegmentThrow(seg1Speed, seg1End, seg2Speed, seg2End);
+  public boolean isFinished() 
+  {
+    return mArm.runDoubleSegmentThrow(mSeg1Speed, mSeg1End, mSeg2Speed, mSeg2End);
   }
 }

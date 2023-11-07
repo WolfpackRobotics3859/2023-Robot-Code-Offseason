@@ -10,13 +10,39 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.util.SwerveModuleConstants;
 
 /** Add your docs here. */
-public class Constants {
-    public static class ClawConstants {
-        public static final int clawMotorId = 20;
+public class Constants 
+{
+
+    public static class CONTROLLERS
+    {
+        public static int DRIVER_CONTROLLER_ID = 0;
+        public static int OPERATOR_CONTROLLER_ID = 1;
+
+        // Defining named Axes
+        static class DRIVER_AXES
+        {
+            public static final int TRANSLATION_AXIS = XboxController.Axis.kLeftY.value;
+            public static final int STRAFE_AXIS = XboxController.Axis.kLeftX.value;
+            public static final int ROTATION_AXIS = XboxController.Axis.kRightX.value;
+        }
     }
+
+    public static class CLAW
+    {
+        public static final int MOTOR_ID = 20;
+    }
+
+    public static class ARM
+    {
+        public static final int MOTOR_ID = 12;
+        public static final int ENCODER_ID = 5;
+        public static final int LOWER_SOFT_STOP_POSITION = 100;
+    }
+
     public static class SwerveConstants {
         public static final int pigeonID = 42;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+
@@ -34,12 +60,12 @@ public class Constants {
             new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
     
-            public static final SwerveDriveKinematics circleKinematics = new SwerveDriveKinematics(
-              new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
-              new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
-              new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
-              new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0)
-              );
+        public static final SwerveDriveKinematics circleKinematics = new SwerveDriveKinematics(
+            new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
+            new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
+            new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
+            new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0)
+            );
     
         /* Module Gear Ratios */
         public static final double driveGearRatio = (7.13 / 1.0);
