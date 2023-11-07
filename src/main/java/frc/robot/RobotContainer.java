@@ -16,7 +16,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.claw.ClawCloseCommand;
+import frc.robot.commands.claw.ClawOpenCommand;
 import frc.robot.commands.drive.DriveCommand;
+import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class RobotContainer 
@@ -25,6 +29,7 @@ public class RobotContainer
   public final static CommandXboxController secondaryController = new CommandXboxController(1);
   
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  private final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
@@ -44,18 +49,27 @@ public class RobotContainer
         )
     );
 
-
-    secondaryController.povLeft().or(secondaryController.povDownLeft()).or(secondaryController.povUpLeft()).whileTrue(new DriveCommand(driveSubsystem, () -> 0.0, () ->0.1, () -> 0, () -> true));
-    secondaryController.povRight().or(secondaryController.povDownRight()).or(secondaryController.povUpRight()).whileTrue(new DriveCommand(driveSubsystem, () -> 0, () ->-0.1, () -> 0, () -> true));
-    secondaryController.povUp().whileTrue(new DriveCommand(driveSubsystem, () -> 0.1, () ->0, () -> 0, () -> true));
-    secondaryController.povDown().whileTrue(new DriveCommand(driveSubsystem, () -> -0.1, () ->0, () -> 0, () -> true));
+    Trigger armsEngagedTrigger = new Trigger(clawSubsystem::isClawEngaged);
+    armsEngagedTrigger.whileFalse(new ClawOpenCommand(clawSubsystem));
+    armsEngagedTrigger.whileTrue(new ClawCloseCommand(clawSubsystem));
+    
+    SmartDashboard.putData(clawSubsystem);
+    SmartDashboard.putData(new ClawCloseCommand(clawSubsystem));
+    SmartDashboard.putData(new ClawOpenCommand(clawSubsystem));
     
     configureBindings();
   }
 
   private void configureBindings() 
   {
-    // Empty for now.
+    secondaryController.povLeft().or(secondaryController.povDownLeft()).or(secondaryController.povUpLeft()).whileTrue(new DriveCommand(driveSubsystem, () -> 0.0, () ->0.1, () -> 0, () -> true));
+    secondaryController.povRight().or(secondaryController.povDownRight()).or(secondaryController.povUpRight()).whileTrue(new DriveCommand(driveSubsystem, () -> 0, () ->-0.1, () -> 0, () -> true));
+    secondaryController.povUp().whileTrue(new DriveCommand(driveSubsystem, () -> 0.1, () ->0, () -> 0, () -> true));
+    secondaryController.povDown().whileTrue(new DriveCommand(driveSubsystem, () -> -0.1, () ->0, () -> 0, () -> true));
+
+    secondaryController.rightBumper().onTrue(new InstantCommand(() -> {clawSubsystem.setArmState(!clawSubsystem.isClawEngaged());}));
+    
+
   }
 
   public Command getAutonomousCommand() 
