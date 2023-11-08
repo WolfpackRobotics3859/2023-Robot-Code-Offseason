@@ -6,12 +6,12 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Drivetrain;
 
-public class ResetGyroCommand extends CommandBase {
+public class ResetGyro extends CommandBase {
   /** Creates a new ResetGyroCommand. */
-  private DriveSubsystem driveSubsystem;
-  public ResetGyroCommand(DriveSubsystem driveSubsystem) {
+  private Drivetrain driveSubsystem;
+  public ResetGyro(Drivetrain driveSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveSubsystem = driveSubsystem;
   }

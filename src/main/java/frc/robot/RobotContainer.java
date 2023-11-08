@@ -4,77 +4,89 @@
 
 package frc.robot;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.drive.Drive;
+import frc.robot.commands.arm.FireLongCone;
+import frc.robot.commands.arm.FireShortCone;
+import frc.robot.commands.arm.Stow;
+import frc.robot.subsystems.Arm;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.claw.ClawCloseCommand;
-import frc.robot.commands.claw.ClawOpenCommand;
-import frc.robot.commands.drive.DriveCommand;
-import frc.robot.subsystems.ClawSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.commands.claw.Close;
+import frc.robot.commands.claw.Open;
+import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.Drivetrain;
 
 public class RobotContainer 
 {
-  public final static CommandXboxController primaryController = new CommandXboxController(0);
-  public final static CommandXboxController secondaryController = new CommandXboxController(1);
-  
-  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
-  private final ClawSubsystem clawSubsystem = new ClawSubsystem();
-  private final int translationAxis = XboxController.Axis.kLeftY.value;
-  private final int strafeAxis = XboxController.Axis.kLeftX.value;
-  private final int rotationAxis = XboxController.Axis.kRightX.value;
+  // Controller Declarations
+  private static CommandXboxController mDriverController = new CommandXboxController(Constants.CONTROLLERS.DRIVER_CONTROLLER_ID);
+  private static CommandXboxController mOperatorController = new CommandXboxController(Constants.CONTROLLERS.OPERATOR_CONTROLLER_ID);
 
-  private final JoystickButton robotCentric = new JoystickButton(primaryController.getHID(), XboxController.Button.kRightBumper.value);
+  // Subsystem Declarations
+  private final Arm mArm = new Arm();
+  private final Drivetrain mDrive = new Drivetrain();
+  private final Claw mClaw = new Claw();
+  
+  // Please check if code below can remove this object declaration
+  private final JoystickButton robotCentric = new JoystickButton(mDriverController.getHID(), XboxController.Button.kRightBumper.value);
 
   public RobotContainer() 
   {
-    
-     driveSubsystem.setDefaultCommand(
-      new DriveCommand(
-          driveSubsystem, 
-          () -> primaryController.getRawAxis(translationAxis)*0.80, 
-          () -> primaryController.getRawAxis(strafeAxis)*0.80, 
-          () -> -primaryController.getRawAxis(rotationAxis)*0.80, 
+    // Hard coding drive speed limits might be able to be done within swerve constants instead of scaling the axes. Please check.
+     mDrive.setDefaultCommand(
+      new Drive(
+          mDrive, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*0.80, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*0.80, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*0.80, 
           () -> robotCentric.getAsBoolean()
         )
     );
 
-    Trigger armsEngagedTrigger = new Trigger(clawSubsystem::isClawEngaged);
-    armsEngagedTrigger.whileFalse(new ClawOpenCommand(clawSubsystem));
-    armsEngagedTrigger.whileTrue(new ClawCloseCommand(clawSubsystem));
-    
-    SmartDashboard.putData(clawSubsystem);
-    SmartDashboard.putData(new ClawCloseCommand(clawSubsystem));
-    SmartDashboard.putData(new ClawOpenCommand(clawSubsystem));
+    // Please Check if this works instead of creating an extra variable
+    // mDrive.setDefaultCommand(
+    //   new Drive(
+    //       mDrive, 
+    //       () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*0.80, 
+    //       () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*0.80, 
+    //       () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*0.80, 
+    //       () -> mDriverController.rightBumper().getAsBoolean()
+    //     )
+    // );
 
-    secondaryController.povLeft().or(secondaryController.povDownLeft()).or(secondaryController.povUpLeft()).whileTrue(new DriveCommand(driveSubsystem, () -> 0.0, () ->0.1, () -> 0, () -> true));
-    secondaryController.povRight().or(secondaryController.povDownRight()).or(secondaryController.povUpRight()).whileTrue(new DriveCommand(driveSubsystem, () -> 0, () ->-0.1, () -> 0, () -> true));
-    secondaryController.povUp().whileTrue(new DriveCommand(driveSubsystem, () -> 0.1, () ->0, () -> 0, () -> true));
-    secondaryController.povDown().whileTrue(new DriveCommand(driveSubsystem, () -> -0.1, () ->0, () -> 0, () -> true));
+    // Logic for this should be done inside the subsystem instead.
+    Trigger armsEngagedTrigger = new Trigger(mClaw::getEngaged);
+    armsEngagedTrigger.whileFalse(new Open(mClaw));
+    armsEngagedTrigger.whileTrue(new Close(mClaw));
+    
+    SmartDashboard.putData(mClaw);
+    SmartDashboard.putData(new Close(mClaw));
+    SmartDashboard.putData(new Open(mClaw));
     
     configureBindings();
   }
 
   private void configureBindings() 
   {
-    secondaryController.povLeft().or(secondaryController.povDownLeft()).or(secondaryController.povUpLeft()).whileTrue(new DriveCommand(driveSubsystem, () -> 0.0, () ->0.1, () -> 0, () -> true));
-    secondaryController.povRight().or(secondaryController.povDownRight()).or(secondaryController.povUpRight()).whileTrue(new DriveCommand(driveSubsystem, () -> 0, () ->-0.1, () -> 0, () -> true));
-    secondaryController.povUp().whileTrue(new DriveCommand(driveSubsystem, () -> 0.1, () ->0, () -> 0, () -> true));
-    secondaryController.povDown().whileTrue(new DriveCommand(driveSubsystem, () -> -0.1, () ->0, () -> 0, () -> true));
+    // Fine Positioning
+    mOperatorController.povLeft().or(mOperatorController.povDownLeft()).or(mOperatorController.povUpLeft()).whileTrue(new Drive(mDrive, () -> 0.0, () ->0.1, () -> 0, () -> true));
+    mOperatorController.povRight().or(mOperatorController.povDownRight()).or(mOperatorController.povUpRight()).whileTrue(new Drive(mDrive, () -> 0, () ->-0.1, () -> 0, () -> true));
+    mOperatorController.povUp().whileTrue(new Drive(mDrive, () -> 0.1, () ->0, () -> 0, () -> true));
+    mOperatorController.povDown().whileTrue(new Drive(mDrive, () -> -0.1, () ->0, () -> 0, () -> true));
 
-    secondaryController.rightBumper().onTrue(new InstantCommand(() -> {clawSubsystem.setArmState(!clawSubsystem.isClawEngaged());}));
-    
+    // Claw Toggle
+    mOperatorController.rightBumper().onTrue(new InstantCommand(() -> {mClaw.setEngaged(!mClaw.getEngaged());}));
 
+    // Arm Control
+    mOperatorController.a().onTrue(new FireShortCone(mArm).andThen(new Stow(mArm)));
+    mOperatorController.b().onTrue(new FireLongCone(mArm).andThen(new Stow(mArm)));
+    mOperatorController.y().onTrue(mArm.zeroSensor());
   }
 
   public Command getAutonomousCommand() 
