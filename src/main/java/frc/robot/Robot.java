@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -27,6 +28,12 @@ public class Robot extends TimedRobot
     ctreConfigs = new CTREConfigs();
     m_robotContainer = new RobotContainer();
     RoboLogger.init();
+
+    //Tell networktables that the pi has a camera stream to tune into
+    NetworkTableInstance.getDefault()
+      .getEntry("/CameraPublisher/PiCamera/streams")
+      .setStringArray(new String[]{"mjpeg:http://10.38.59.13:1181/stream.mjpg", "mjpeg:http://10.38.59.13:1182/stream.mjpg"});
+
   }
 
   /**
