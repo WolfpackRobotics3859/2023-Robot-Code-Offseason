@@ -36,6 +36,11 @@ public class Constants
         public static final int MOTOR_ID = 20;
     }
 
+    public static class CLIMB 
+    {
+        public static final int MOTOR_ID = 11;
+        public static final double MAX_SPEED = 0.20;
+    }
     public static class ARM
     {
         public static final int MOTOR_ID = 12;
