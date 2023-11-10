@@ -91,7 +91,6 @@ public class RobotContainer
     // Arm Control
     mOperatorController.a().onTrue(new Open(mClaw).withTimeout(0.001).andThen(new FireShortCone(mArm).andThen(new Stow(mArm))));
     mOperatorController.b().onTrue(new Open(mClaw).withTimeout(0.001).andThen(new FireLongCone(mArm).andThen(new Stow(mArm))));
-    mOperatorController.y().onTrue(mArm.zeroSensor()); //Consider removing, accidental press would be dastardly and no issues with encoder drift
 
     //Intake
     mOperatorController.x().whileTrue(new Intake(mArm));
