@@ -41,12 +41,21 @@ public class Constants
         public static final int MOTOR_ID = 12;
         public static final int ENCODER_ID = 5;
         public static final int LOWER_SOFT_STOP_POSITION = 100;
+
+        public static final int MM_ACCELERATION = 4500;
+        public static final int MM_CRUISE = 600;
+        public static final int MM_SMOOTHING = 2;
+        
     }
 
     public static class SwerveConstants {
         public static final int pigeonID = 42;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+
 
+        public static final double driveSpeed = 0.8;
+        public static final double slowDriveSpeed = 0.3;
+        public static final double fineDriveSpeed = 0.2;
+        
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(20.35); //TODO: This must be tuned to specific robot //20.35
         public static final double wheelBase = Units.inchesToMeters(20.35); //TODO: This must be tuned to specific robot //15.25

@@ -20,7 +20,7 @@ import frc.robot.Constants;
 public class Arm extends SubsystemBase 
 {
   private static TalonFX mTalon1 = new TalonFX(Constants.ARM.MOTOR_ID);
-  private static CANCoder mEncoder1 = new CANCoder(Constants.CLAW.MOTOR_ID);
+  private static CANCoder mEncoder1 = new CANCoder(Constants.ARM.ENCODER_ID);
 
   /**
    * @brief Creates the Arm subsystem.
@@ -37,6 +37,16 @@ public class Arm extends SubsystemBase
     mEncoder1.configSensorDirection(true);
     mTalon1.configVoltageCompSaturation(8);
     mTalon1.enableVoltageCompensation(true);;
+
+    //Motion Magic values for intake
+    mTalon1.configMotionAcceleration(Constants.ARM.MM_ACCELERATION);
+    mTalon1.configMotionCruiseVelocity(Constants.ARM.MM_CRUISE);
+    mTalon1.configMotionSCurveStrength(Constants.ARM.MM_SMOOTHING);
+    mTalon1.config_kP(0, 1.5);
+    mTalon1.config_kI(0, 0);
+    mTalon1.config_kD(0, 0);
+    mTalon1.config_kF(0, 0);
+    mTalon1.selectProfileSlot(0, 0);
 
     SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 1 Speed", 0.95);
     SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 2 Speed", 0.7);
@@ -115,6 +125,10 @@ public class Arm extends SubsystemBase
   public boolean reachedLowerSoftStop()
   {
     return mTalon1.getSelectedSensorPosition() < Constants.ARM.LOWER_SOFT_STOP_POSITION;
+  }
+
+  public void goToMMPosition(int position) {
+    mTalon1.set(ControlMode.MotionMagic, position);
   }
 
   /**

@@ -11,8 +11,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.Drive;
+import frc.robot.commands.drive.ResetGyro;
+import frc.robot.commands.drive.TurnToAngle;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.arm.FireLongCone;
 import frc.robot.commands.arm.FireShortCone;
+import frc.robot.commands.arm.Intake;
 import frc.robot.commands.arm.Stow;
 import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -38,27 +42,28 @@ public class RobotContainer
 
   public RobotContainer() 
   {
-    // Hard coding drive speed limits might be able to be done within swerve constants instead of scaling the axes. Please check.
+    SmartDashboard.putData(mDrive);
+    //Regular Driving
      mDrive.setDefaultCommand(
       new Drive(
           mDrive, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*0.80, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*0.80, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*0.80, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.driveSpeed, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.driveSpeed, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.driveSpeed, 
           () -> robotCentric.getAsBoolean()
         )
     );
 
-    // Please Check if this works instead of creating an extra variable
-    // mDrive.setDefaultCommand(
-    //   new Drive(
-    //       mDrive, 
-    //       () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*0.80, 
-    //       () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*0.80, 
-    //       () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*0.80, 
-    //       () -> mDriverController.rightBumper().getAsBoolean()
-    //     )
-    // );
+    //Slow Mode
+    mDriverController.rightBumper().whileTrue(
+      new Drive(
+        mDrive, 
+        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.slowDriveSpeed, 
+        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.slowDriveSpeed, 
+        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.slowDriveSpeed, 
+        () -> robotCentric.getAsBoolean()
+      )
+    );
 
     // Logic for this should be done inside the subsystem instead.
     Trigger armsEngagedTrigger = new Trigger(mClaw::getEngaged);
@@ -84,9 +89,18 @@ public class RobotContainer
     mOperatorController.rightBumper().onTrue(new InstantCommand(() -> {mClaw.setEngaged(!mClaw.getEngaged());}));
 
     // Arm Control
-    mOperatorController.a().onTrue(new FireShortCone(mArm).andThen(new Stow(mArm)));
-    mOperatorController.b().onTrue(new FireLongCone(mArm).andThen(new Stow(mArm)));
-    mOperatorController.y().onTrue(mArm.zeroSensor());
+    mOperatorController.a().onTrue(new Open(mClaw).withTimeout(0.001).andThen(new FireShortCone(mArm).andThen(new Stow(mArm))));
+    mOperatorController.b().onTrue(new Open(mClaw).withTimeout(0.001).andThen(new FireLongCone(mArm).andThen(new Stow(mArm))));
+
+    //Intake
+    mOperatorController.x().whileTrue(new Intake(mArm));
+
+    //Reset Gyro
+    mDriverController.a().onTrue(new ResetGyro(mDrive));
+
+    //Turn to angle
+    mOperatorController.leftBumper().whileTrue(new TurnToAngle(mDrive, 0));
+    SmartDashboard.putData(new TurnToAngle(mDrive, 0));
   }
 
   public Command getAutonomousCommand() 
