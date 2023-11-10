@@ -4,25 +4,23 @@
 
 package frc.robot.commands.arm;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.Arm;
 
 public class Intake extends CommandBase {
-  private Arm armSubsystem;
+  private Arm arm;
   /** Creates a new Intake. */
-  public Intake(Arm armSubsystem) {
-    this.armSubsystem = armSubsystem;
+  public Intake(Arm arm) {
+    this.arm = arm;
 
-    addRequirements(armSubsystem);
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    armSubsystem.enableCoasting();
-    armSubsystem.goToMMPosition(800);
+    arm.enableCoasting();
+    arm.goToMMPosition(800);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,7 +30,7 @@ public class Intake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armSubsystem.disableMotor();
+    arm.disableMotor();
   }
 
   // Returns true when the command should end.

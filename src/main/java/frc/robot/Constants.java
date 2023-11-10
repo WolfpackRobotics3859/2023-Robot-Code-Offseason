@@ -41,6 +41,11 @@ public class Constants
         public static final int MOTOR_ID = 12;
         public static final int ENCODER_ID = 5;
         public static final int LOWER_SOFT_STOP_POSITION = 100;
+
+        public static final int MM_ACCELERATION = 4500;
+        public static final int MM_CRUISE = 600;
+        public static final int MM_SMOOTHING = 2;
+        
     }
 
     public static class SwerveConstants {

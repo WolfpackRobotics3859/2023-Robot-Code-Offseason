@@ -39,9 +39,9 @@ public class Arm extends SubsystemBase
     mTalon1.enableVoltageCompensation(true);;
 
     //Motion Magic values for intake
-    mTalon1.configMotionAcceleration(4500);
-    mTalon1.configMotionCruiseVelocity(600);
-    mTalon1.configMotionSCurveStrength(2);
+    mTalon1.configMotionAcceleration(Constants.ARM.MM_ACCELERATION);
+    mTalon1.configMotionCruiseVelocity(Constants.ARM.MM_CRUISE);
+    mTalon1.configMotionSCurveStrength(Constants.ARM.MM_SMOOTHING);
     mTalon1.config_kP(0, 1.5);
     mTalon1.config_kI(0, 0);
     mTalon1.config_kD(0, 0);
