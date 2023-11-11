@@ -23,10 +23,10 @@ public class FireLow extends CommandBase
   @Override
   public void initialize()
   {
-    mSeg1Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Speed", 0.5);
-    mSeg2Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Speed", 0);
-    mSeg1End = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Ending Position", 175);
-    mSeg2End = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Ending Position", 175);
+    mSeg1Speed = SmartDashboard.getNumber("Arm Motion 4 Segment 1 Speed", 0.5);
+    mSeg2Speed = SmartDashboard.getNumber("Arm Motion 4 Segment 2 Speed", 0);
+    mSeg1End = SmartDashboard.getNumber("Arm Motion 4 Segment 1 Ending Position", 175);
+    mSeg2End = SmartDashboard.getNumber("Arm Motion 4 Segment 2 Ending Position", 175);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

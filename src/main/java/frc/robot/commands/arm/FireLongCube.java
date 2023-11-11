@@ -23,10 +23,10 @@ public class FireLongCube extends CommandBase
   @Override
   public void initialize()
   {
-    mSeg1Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Speed", 0.35);
-    mSeg2Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Speed", 0.9);
-    mSeg1End = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Ending Position", 175);
-    mSeg2End = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Ending Position", 500);
+    mSeg1Speed = SmartDashboard.getNumber("Arm Motion 3 Segment 1 Speed", 0.35);
+    mSeg2Speed = SmartDashboard.getNumber("Arm Motion 3 Segment 2 Speed", 0.9);
+    mSeg1End = SmartDashboard.getNumber("Arm Motion 3 Segment 1 Ending Position", 175);
+    mSeg2End = SmartDashboard.getNumber("Arm Motion 3 Segment 2 Ending Position", 500);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

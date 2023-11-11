@@ -232,6 +232,7 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumberArray("botpose_wpiredd", visionData.getEntry("botpose_wpired").getDoubleArray(new double[6]));
         SmartDashboard.putNumber("rotation", getPose().getRotation().getDegrees());
         SmartDashboard.putNumber("gyro", getYaw().getDegrees());
+        SmartDashboard.putNumber("roll", gyro.getRoll());
         //SmartDashboard.putNumber("ppose anle", get);
 
 

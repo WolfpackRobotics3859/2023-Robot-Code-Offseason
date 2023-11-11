@@ -18,14 +18,18 @@ import frc.robot.commands.drive.ResetGyro;
 import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.arm.FireLongCone;
+import frc.robot.commands.arm.FireLongCube;
+import frc.robot.commands.arm.FireLow;
 import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Intake;
 import frc.robot.commands.arm.Stow;
+import frc.robot.commands.autos.RegressionAuto;
 import frc.robot.commands.autos.Throw;
 import frc.robot.commands.autos.ThrowTaxi;
 import frc.robot.commands.autos.ThrowTaxiBalance;
 import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.claw.Close;
 import frc.robot.commands.claw.Open;
@@ -54,6 +58,7 @@ public class RobotContainer
   public RobotContainer() 
   {
     SmartDashboard.putData(mDrive);
+    SmartDashboard.putData(mChooser);
     //Regular Driving
      mDrive.setDefaultCommand(
       new Drive(
@@ -92,6 +97,7 @@ public class RobotContainer
     mChooser.setDefaultOption("ThrowTaxiBalance", new ThrowTaxiBalance(mDrive, mArm, mClaw));
     mChooser.addOption("ThrowTaxi", new ThrowTaxi(mDrive, mArm, mClaw));
     mChooser.addOption("Throw", new Throw(mDrive, mArm, mClaw));
+    mChooser.addOption("Regression", new RegressionAuto(mDrive, mArm, mClaw));
     
     configureBindings();
   }
@@ -108,9 +114,11 @@ public class RobotContainer
     mOperatorController.rightBumper().onTrue(new InstantCommand(() -> {mClaw.setEngaged(!mClaw.getEngaged());}));
 
     // Arm Control
-    mOperatorController.a().onTrue(new Open(mClaw).withTimeout(0.001).andThen(new FireShortCone(mArm).andThen(new Stow(mArm))));
-    mOperatorController.b().onTrue(new Open(mClaw).withTimeout(0.001).andThen(new FireLongCone(mArm).andThen(new Stow(mArm))));
-
+    mOperatorController.leftTrigger(0.1).onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireShortCone(mArm).andThen(new Stow(mArm))));
+    mOperatorController.rightTrigger(0.1).onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireLongCone(mArm).andThen(new Stow(mArm))));
+    mOperatorController.y().onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireLongCube(mArm).andThen(new Stow(mArm))));
+    mOperatorController.b().onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireLow(mArm).andThen(new Stow(mArm))));
+    
     //Intake
     mOperatorController.x().whileTrue(new Intake(mArm));
 
@@ -125,6 +133,6 @@ public class RobotContainer
 
   public Command getAutonomousCommand() 
   {
-    return Commands.print("No autonomous command configured");
+    return mChooser.getSelected();
   }
 }

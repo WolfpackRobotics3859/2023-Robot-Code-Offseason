@@ -7,9 +7,11 @@ package frc.robot.commands.autos;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.arm.FireLongCone;
+import frc.robot.commands.arm.Stow;
 import frc.robot.commands.drive.Balance;
 import frc.robot.commands.drive.Drive;
 import frc.robot.commands.drive.ResetGyro;
+import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
@@ -20,14 +22,17 @@ import frc.robot.subsystems.Drivetrain;
 public class ThrowTaxiBalance extends SequentialCommandGroup {
   /** Creates a new ThrowTaxiBalance. */
   public ThrowTaxiBalance(Drivetrain drivetrain, Arm arm, Claw claw) {
-    // Add your commands in the addCommands() call, e.g.
+    // Add your commands in the addCommands() call  2, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new ResetGyro(drivetrain).withTimeout(0.001),
      arm.zeroSensor(),
-     new InstantCommand(() -> {claw.setEngaged(false);}), new FireLongCone(arm),
-     new DriveBack(drivetrain, true, -13.0).withTimeout(4.5),
-     new DriveBack(drivetrain, false, 0.0, true).withTimeout(0.75),
-     new DriveBack(drivetrain, true, 13.0).withTimeout(3.5), 
+     new InstantCommand(() -> {claw.setEngaged(false);}), 
+     new FireLongCone(arm),
+     new Stow(arm),
+     new DriveBack(drivetrain, false, 0.0, false).withTimeout(4.3),
+     new TurnToAngle(drivetrain, 180),
+     new DriveBack(drivetrain, false, 0, false).withTimeout(1.3),
+     new DriveBack(drivetrain, true, 25.0, false).withTimeout(3.5), 
      new Balance(drivetrain).repeatedly()
     );
   }

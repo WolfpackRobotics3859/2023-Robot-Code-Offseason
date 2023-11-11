@@ -7,6 +7,7 @@ package frc.robot.commands.autos;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.arm.FireLongCone;
+import frc.robot.commands.arm.Stow;
 import frc.robot.commands.drive.ResetGyro;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
@@ -23,7 +24,8 @@ public class Throw extends SequentialCommandGroup {
     addCommands(new ResetGyro(drivetrain).withTimeout(0.001),
      arm.zeroSensor(),
      new InstantCommand(() -> {claw.setEngaged(false);}), 
-     new FireLongCone(arm)
+     new FireLongCone(arm),
+     new Stow(arm)
     );
   }
 }
