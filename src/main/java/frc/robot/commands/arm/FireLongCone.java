@@ -23,10 +23,10 @@ public class FireLongCone extends CommandBase
   @Override
   public void initialize()
   {
-    mSeg1Speed = SmartDashboard.getNumber("Arm Motion 1 Segment 1 Speed", 0);
-    mSeg2Speed = SmartDashboard.getNumber("Arm Motion 1 Segment 2 Speed", 0);
-    mSeg1End = SmartDashboard.getNumber("Arm Motion 1 Segment 1 Ending Position", 0);
-    mSeg2End = SmartDashboard.getNumber("Arm Motion 1 Segment 2 Ending Position", 0);
+    mSeg1Speed = SmartDashboard.getNumber("Arm Motion 1 Segment 1 Speed", 0.27);
+    mSeg2Speed = SmartDashboard.getNumber("Arm Motion 1 Segment 2 Speed", 0.79);
+    mSeg1End = SmartDashboard.getNumber("Arm Motion 1 Segment 1 Ending Position", 100);
+    mSeg2End = SmartDashboard.getNumber("Arm Motion 1 Segment 2 Ending Position", 445);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
