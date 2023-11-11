@@ -7,10 +7,12 @@ package frc.robot.commands.arm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
-public class Intake extends CommandBase {
+public class Intake extends CommandBase 
+{
   private Arm arm;
   /** Creates a new Intake. */
-  public Intake(Arm arm) {
+  public Intake(Arm arm)
+  {
     this.arm = arm;
 
     addRequirements(arm);
@@ -18,24 +20,31 @@ public class Intake extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() 
+  {
     arm.enableCoasting();
     arm.goToMMPosition(800);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() 
+  {
+    // Intentionally Empty
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
+  public void end(boolean interrupted) 
+  {
     arm.disableMotor();
   }
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
+  public boolean isFinished() 
+  {
     return false;
   }
 }
+
