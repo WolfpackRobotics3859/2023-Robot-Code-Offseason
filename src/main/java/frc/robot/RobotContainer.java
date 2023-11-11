@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,7 +25,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.claw.Close;
 import frc.robot.commands.claw.Open;
+import frc.robot.commands.climb.JoystickControl;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drivetrain;
 
 public class RobotContainer 
@@ -36,6 +40,7 @@ public class RobotContainer
   private final Arm mArm = new Arm();
   private final Drivetrain mDrive = new Drivetrain();
   private final Claw mClaw = new Claw();
+  private final Climb mClimb = new Climb();
   
   // Please check if code below can remove this object declaration
   private final JoystickButton robotCentric = new JoystickButton(mDriverController.getHID(), XboxController.Button.kRightBumper.value);
@@ -65,6 +70,9 @@ public class RobotContainer
       )
     );
 
+    //Climb 
+    mClimb.setDefaultCommand(new JoystickControl(mClimb, () -> mOperatorController.getRawAxis(XboxController.Axis.kLeftX.value)));
+  
     // Logic for this should be done inside the subsystem instead.
     Trigger armsEngagedTrigger = new Trigger(mClaw::getEngaged);
     armsEngagedTrigger.whileFalse(new Open(mClaw));
@@ -101,6 +109,7 @@ public class RobotContainer
     //Turn to angle
     mOperatorController.leftBumper().whileTrue(new TurnToAngle(mDrive, 0));
     SmartDashboard.putData(new TurnToAngle(mDrive, 0));
+
   }
 
   public Command getAutonomousCommand() 

@@ -36,8 +36,7 @@ public class Arm extends SubsystemBase
     mTalon1.setInverted(true);
     mEncoder1.configSensorDirection(true);
     mTalon1.configVoltageCompSaturation(8);
-    mTalon1.enableVoltageCompensation(true);;
-
+    mTalon1.enableVoltageCompensation(true);
     //Motion Magic values for intake
     mTalon1.configMotionAcceleration(Constants.ARM.MM_ACCELERATION);
     mTalon1.configMotionCruiseVelocity(Constants.ARM.MM_CRUISE);
