@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
-public class Balance extends CommandBase {
+public class BalanceBack extends CommandBase {
   /** Creates a new Balance. */
   Drivetrain mDrivetrain;
-  public Balance(Drivetrain drivetrain) {
+  public BalanceBack(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     mDrivetrain = drivetrain;
     addRequirements(mDrivetrain);
@@ -26,7 +26,7 @@ public class Balance extends CommandBase {
   @Override
   public void execute() {
     double angle = mDrivetrain.gyro.getRoll();
-    double output = -0.175 * (angle/Math.abs(angle));
+    double output = 0.175 * (angle/Math.abs(angle));
 
     if(Math.abs(angle) > 11.0){
       mDrivetrain.drive(new Translation2d(output, 0).times(Constants.SwerveConstants.maxSpeed), 0, true, true);

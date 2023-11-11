@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.arm.FireLongCone;
 import frc.robot.commands.arm.Stow;
 import frc.robot.commands.drive.Balance;
+import frc.robot.commands.drive.BalanceBack;
 import frc.robot.commands.drive.Drive;
 import frc.robot.commands.drive.ResetGyro;
 import frc.robot.commands.drive.TurnToAngle;
@@ -29,11 +30,11 @@ public class ThrowTaxiBalance extends SequentialCommandGroup {
      new InstantCommand(() -> {claw.setEngaged(false);}), 
      new FireLongCone(arm),
      new Stow(arm),
-     new DriveBack(drivetrain, false, 0.0, false).withTimeout(4.3),
+     new DriveBack(drivetrain, false, 0.0, false).withTimeout(4.8),
      new TurnToAngle(drivetrain, 180),
-     new DriveBack(drivetrain, false, 0, false).withTimeout(1.3),
-     new DriveBack(drivetrain, true, 25.0, false).withTimeout(3.5), 
-     new Balance(drivetrain).repeatedly()
+     //new DriveBack(drivetrain, false, 0, false).withTimeout(1.3),
+     new DriveBackFaster(drivetrain, true, 13.0, false).withTimeout(3.5), 
+     new BalanceBack(drivetrain).repeatedly()
     );
   }
 }
