@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -14,6 +15,9 @@ import frc.robot.commands.drive.Drive;
 import frc.robot.commands.arm.FireLongCone;
 import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Stow;
+import frc.robot.commands.autos.Throw;
+import frc.robot.commands.autos.ThrowTaxi;
+import frc.robot.commands.autos.ThrowTaxiBalance;
 import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -33,6 +37,8 @@ public class RobotContainer
   private final Drivetrain mDrive = new Drivetrain();
   private final Claw mClaw = new Claw();
   
+  //Auto Sendable Chooser
+  SendableChooser<Command> mChooser = new SendableChooser<Command>();
   // Please check if code below can remove this object declaration
   private final JoystickButton robotCentric = new JoystickButton(mDriverController.getHID(), XboxController.Button.kRightBumper.value);
 
@@ -68,6 +74,11 @@ public class RobotContainer
     SmartDashboard.putData(mClaw);
     SmartDashboard.putData(new Close(mClaw));
     SmartDashboard.putData(new Open(mClaw));
+    
+    //Auto Chooser
+    mChooser.setDefaultOption("ThrowTaxiBalance", new ThrowTaxiBalance(mDrive, mArm, mClaw));
+    mChooser.addOption("ThrowTaxi", new ThrowTaxi(mDrive, mArm, mClaw));
+    mChooser.addOption("Throw", new Throw(mDrive, mArm, mClaw));
     
     configureBindings();
   }

@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
-public class FireShortCone extends CommandBase 
+public class FireLow extends CommandBase 
 {
   private Arm mArm;
   private double mSeg1Speed, mSeg2Speed, mSeg1End, mSeg2End;
 
-  public FireShortCone(Arm arm) 
+  public FireLow(Arm arm) 
   {
     addRequirements(arm);
     mArm = arm;
@@ -23,10 +23,10 @@ public class FireShortCone extends CommandBase
   @Override
   public void initialize()
   {
-    mSeg1Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Speed", 0.27);
-    mSeg2Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Speed", 0.79);
-    mSeg1End = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Ending Position", 100);
-    mSeg2End = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Ending Position", 445);
+    mSeg1Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Speed", 0.5);
+    mSeg2Speed = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Speed", 0);
+    mSeg1End = SmartDashboard.getNumber("Arm Motion 2 Segment 1 Ending Position", 175);
+    mSeg2End = SmartDashboard.getNumber("Arm Motion 2 Segment 2 Ending Position", 175);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
