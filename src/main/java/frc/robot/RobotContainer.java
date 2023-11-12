@@ -127,11 +127,11 @@ public class RobotContainer
   private void configureBindings() 
   {
     // Fine Positioning
-    mOperatorController.povLeft().or(mOperatorController.povDownLeft()).or(mOperatorController.povUpLeft()).whileTrue(new Drive(mDrive, () -> 0.0, () ->Constants.SwerveConstants.FINE_DRIVE_SPEED, () -> 0, () -> true));
-    mOperatorController.povRight().or(mOperatorController.povDownRight()).or(mOperatorController.povUpRight()).whileTrue(new Drive(mDrive, () -> 0, () ->-Constants.SwerveConstants.FINE_DRIVE_SPEED, () -> 0, () -> true));
-    mOperatorController.povUp().whileTrue(new Drive(mDrive, () -> 0.1, () ->0, () -> 0, () -> true));
-    mOperatorController.povDown().whileTrue(new Drive(mDrive, () -> -0.1, () ->0, () -> 0, () -> true));
-
+    mOperatorController.povLeft().or(mOperatorController.povDownLeft()).or(mOperatorController.povUpLeft()).whileTrue(new HoldAngle(mDrive, 0, () -> 0, () -> Constants.SwerveConstants.FINE_DRIVE_SPEED));
+    mOperatorController.povRight().or(mOperatorController.povDownRight()).or(mOperatorController.povUpRight()).whileTrue(new HoldAngle(mDrive, 0, () -> 0, () -> -Constants.SwerveConstants.FINE_DRIVE_SPEED));
+    mOperatorController.povUp().whileTrue(new HoldAngle(mDrive, 0, () -> Constants.SwerveConstants.FINE_DRIVE_SPEED, () -> 0));
+    mOperatorController.povDown().whileTrue(new HoldAngle(mDrive, 0, () -> -Constants.SwerveConstants.FINE_DRIVE_SPEED, () -> 0));
+    
     // Claw Toggle
     mOperatorController.rightBumper().onTrue(new InstantCommand(() -> {mClaw.setEngaged(!mClaw.getEngaged());}));
 
