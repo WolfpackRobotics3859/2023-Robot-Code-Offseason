@@ -7,6 +7,7 @@ package frc.robot;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -17,11 +18,18 @@ import frc.robot.commands.drive.ResetGyro;
 import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.arm.FireLongCone;
+import frc.robot.commands.arm.FireLongCube;
+import frc.robot.commands.arm.FireLow;
 import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Intake;
 import frc.robot.commands.arm.Stow;
+import frc.robot.commands.autos.RegressionAuto;
+import frc.robot.commands.autos.Throw;
+import frc.robot.commands.autos.ThrowTaxi;
+import frc.robot.commands.autos.ThrowTaxiBalance;
 import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.claw.Close;
 import frc.robot.commands.claw.Open;
@@ -42,19 +50,42 @@ public class RobotContainer
   private final Claw mClaw = new Claw();
   private final Climb mClimb = new Climb();
   
+  //Auto Sendable Chooser
+  SendableChooser<Command> mChooser = new SendableChooser<Command>();
   // Please check if code below can remove this object declaration
   private final JoystickButton robotCentric = new JoystickButton(mDriverController.getHID(), XboxController.Button.kRightBumper.value);
 
   public RobotContainer() 
   {
     SmartDashboard.putData(mDrive);
+    SmartDashboard.putData(mChooser);
     //Regular Driving
      mDrive.setDefaultCommand(
       new Drive(
           mDrive, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.driveSpeed, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.driveSpeed, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.driveSpeed, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.DRIVE_SPEED, 
+          () -> robotCentric.getAsBoolean()
+        )
+    );
+
+    mDriverController.rightTrigger(0.1).whileTrue(
+      new Drive(
+          mDrive, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(XboxController.Axis.kRightTrigger.value)*-0.1,
+          () -> robotCentric.getAsBoolean()
+        )
+    );
+
+    mDriverController.leftTrigger(0.1).whileTrue(
+      new Drive(
+          mDrive, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(XboxController.Axis.kLeftTrigger.value)*0.1,
           () -> robotCentric.getAsBoolean()
         )
     );
@@ -63,10 +94,10 @@ public class RobotContainer
     mDriverController.rightBumper().whileTrue(
       new Drive(
         mDrive, 
-        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.slowDriveSpeed, 
-        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.slowDriveSpeed, 
-        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.slowDriveSpeed, 
-        () -> robotCentric.getAsBoolean()
+        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.SLOW_DRIVE_SPEED, 
+        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.SLOW_DRIVE_SPEED, 
+        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.SLOW_DRIVE_SPEED, 
+        () -> false
       )
     );
 
@@ -82,14 +113,20 @@ public class RobotContainer
     SmartDashboard.putData(new Close(mClaw));
     SmartDashboard.putData(new Open(mClaw));
     
+    //Auto Chooser
+    mChooser.setDefaultOption("ThrowTaxiBalance", new ThrowTaxiBalance(mDrive, mArm, mClaw));
+    mChooser.addOption("ThrowTaxi", new ThrowTaxi(mDrive, mArm, mClaw));
+    mChooser.addOption("Throw", new Throw(mDrive, mArm, mClaw));
+    mChooser.addOption("Regression", new RegressionAuto(mDrive, mArm, mClaw));
+    
     configureBindings();
   }
 
   private void configureBindings() 
   {
     // Fine Positioning
-    mOperatorController.povLeft().or(mOperatorController.povDownLeft()).or(mOperatorController.povUpLeft()).whileTrue(new Drive(mDrive, () -> 0.0, () ->0.1, () -> 0, () -> true));
-    mOperatorController.povRight().or(mOperatorController.povDownRight()).or(mOperatorController.povUpRight()).whileTrue(new Drive(mDrive, () -> 0, () ->-0.1, () -> 0, () -> true));
+    mOperatorController.povLeft().or(mOperatorController.povDownLeft()).or(mOperatorController.povUpLeft()).whileTrue(new Drive(mDrive, () -> 0.0, () ->Constants.SwerveConstants.FINE_DRIVE_SPEED, () -> 0, () -> true));
+    mOperatorController.povRight().or(mOperatorController.povDownRight()).or(mOperatorController.povUpRight()).whileTrue(new Drive(mDrive, () -> 0, () ->-Constants.SwerveConstants.FINE_DRIVE_SPEED, () -> 0, () -> true));
     mOperatorController.povUp().whileTrue(new Drive(mDrive, () -> 0.1, () ->0, () -> 0, () -> true));
     mOperatorController.povDown().whileTrue(new Drive(mDrive, () -> -0.1, () ->0, () -> 0, () -> true));
 
@@ -97,9 +134,11 @@ public class RobotContainer
     mOperatorController.rightBumper().onTrue(new InstantCommand(() -> {mClaw.setEngaged(!mClaw.getEngaged());}));
 
     // Arm Control
-    mOperatorController.a().onTrue(new Open(mClaw).withTimeout(0.001).andThen(new FireShortCone(mArm).andThen(new Stow(mArm))));
-    mOperatorController.b().onTrue(new Open(mClaw).withTimeout(0.001).andThen(new FireLongCone(mArm).andThen(new Stow(mArm))));
-
+    mOperatorController.leftTrigger(0.1).onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireShortCone(mArm).andThen(new Stow(mArm))));
+    mOperatorController.rightTrigger(0.1).onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireLongCone(mArm).andThen(new Stow(mArm))));
+    mOperatorController.y().onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireLongCube(mArm).andThen(new Stow(mArm))));
+    mOperatorController.b().onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireLow(mArm).andThen(new Stow(mArm))));
+    
     //Intake
     mOperatorController.x().whileTrue(new Intake(mArm));
 
@@ -114,6 +153,6 @@ public class RobotContainer
 
   public Command getAutonomousCommand() 
   {
-    return Commands.print("No autonomous command configured");
+    return mChooser.getSelected();
   }
 }

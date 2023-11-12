@@ -44,7 +44,7 @@ public class RoboLogger
       DriverStation.startDataLog(DataLogManager.getLog());
 
       // Alternative Driver Station log begin without joystick.
-      // DriverStation.startDataLog(DataLogManager.getLog());
+      // DriverStation.startDataLog(DataLogManager.getLog(), false);
 
       DataLog log = DataLogManager.getLog();
       

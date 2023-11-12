@@ -41,23 +41,35 @@ public class Arm extends SubsystemBase
     mTalon1.configMotionAcceleration(Constants.ARM.MM_ACCELERATION);
     mTalon1.configMotionCruiseVelocity(Constants.ARM.MM_CRUISE);
     mTalon1.configMotionSCurveStrength(Constants.ARM.MM_SMOOTHING);
-    mTalon1.config_kP(0, 1.5);
+    mTalon1.config_kP(0, 1.1);
     mTalon1.config_kI(0, 0);
     mTalon1.config_kD(0, 0);
-    mTalon1.config_kF(0, 0);
+    mTalon1.config_kF(0, 0.5);
     mTalon1.selectProfileSlot(0, 0);
 
-    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 1 Speed", 0.95);
-    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 2 Speed", 0.7);
+    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 1 Speed", 1);
+    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 2 Speed", 0.3);
 
-    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 1 Ending Position", 275);
-    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 2 Ending Position", 450);
+    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 1 Ending Position", 300);
+    SmartDashboard.setDefaultNumber("Arm Motion 1 Segment 2 Ending Position", 700);
 
-    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Speed", 0.8);
-    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Speed", 0.5);
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Speed", 0.27);
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Speed", 0.79);
     
-    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Ending Position", 400);
-    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Ending Position", 800);
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 1 Ending Position", 100);
+    SmartDashboard.setDefaultNumber("Arm Motion 2 Segment 2 Ending Position", 445);
+
+    SmartDashboard.setDefaultNumber("Arm Motion 3 Segment 1 Speed", 0.35);
+    SmartDashboard.setDefaultNumber("Arm Motion 3 Segment 2 Speed", 0.9);
+    
+    SmartDashboard.setDefaultNumber("Arm Motion 3 Segment 1 Ending Position", 175);
+    SmartDashboard.setDefaultNumber("Arm Motion 3 Segment 2 Ending Position", 500);
+
+    SmartDashboard.setDefaultNumber("Arm Motion 4 Segment 1 Speed", 0.5);
+    SmartDashboard.setDefaultNumber("Arm Motion 4 Segment 2 Speed", 0);
+    
+    SmartDashboard.setDefaultNumber("Arm Motion 4 Segment 1 Ending Position", 175);
+    SmartDashboard.setDefaultNumber("Arm Motion 4 Segment 2 Ending Position", 175);
   }
 
   public CommandBase zeroSensor()
