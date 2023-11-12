@@ -152,9 +152,7 @@ public class RobotContainer
 
     //Squaring
     mDriverController.x().whileTrue(new HoldAngle(mDrive, 90));
-    mDriverController.y().whileTrue(new HoldAngle(mDrive, 0));
-    
-
+    mDriverController.y().whileTrue(new HoldAngle(mDrive, 0));    
   }
 
   public Command getAutonomousCommand() 
