@@ -31,6 +31,7 @@ import frc.robot.commands.autos.ThrowTaxiBalance;
 import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.claw.Close;
 import frc.robot.commands.claw.Open;
@@ -135,10 +136,10 @@ public class RobotContainer
     mOperatorController.rightBumper().onTrue(new InstantCommand(() -> {mClaw.setEngaged(!mClaw.getEngaged());}));
 
     // Arm Control
-    mOperatorController.leftTrigger(0.1).onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireShortCone(mArm).andThen(new Stow(mArm))));
-    mOperatorController.rightTrigger(0.1).onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireLongCone(mArm).andThen(new Stow(mArm))));
-    mOperatorController.y().onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireLongCube(mArm).andThen(new Stow(mArm))));
-    mOperatorController.b().onTrue(new SequentialCommandGroup(new Open(mClaw).withTimeout(0.1), new FireLow(mArm).andThen(new Stow(mArm))));
+    mOperatorController.leftTrigger(0.1).onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireShortCone(mArm).andThen(new Stow(mArm))));
+    mOperatorController.rightTrigger(0.1).onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireLongCone(mArm).andThen(new Stow(mArm))));
+    mOperatorController.y().onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireLongCube(mArm).andThen(new Stow(mArm))));
+    mOperatorController.b().onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireLow(mArm).andThen(new Stow(mArm))));
     
     //Intake
     mOperatorController.x().whileTrue(new Intake(mArm));
@@ -151,8 +152,12 @@ public class RobotContainer
     SmartDashboard.putData(new TurnToAngle(mDrive, 0));
 
     //Squaring
-    mDriverController.x().whileTrue(new HoldAngle(mDrive, 90));
-    mDriverController.y().whileTrue(new HoldAngle(mDrive, 0));    
+    mDriverController.x().whileTrue(new HoldAngle(mDrive, 90,
+    () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED,
+    () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED));
+    mDriverController.y().whileTrue(new HoldAngle(mDrive, 0,
+    () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED,
+    () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED));    
   }
 
   public Command getAutonomousCommand() 
