@@ -6,12 +6,9 @@ package frc.robot.commands.autos;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.arm.FireLongCone;
 import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Stow;
-import frc.robot.commands.drive.Balance;
 import frc.robot.commands.drive.BalanceBack;
-import frc.robot.commands.drive.Drive;
 import frc.robot.commands.drive.ResetGyro;
 import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.subsystems.Arm;
