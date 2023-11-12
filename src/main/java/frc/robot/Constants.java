@@ -57,9 +57,9 @@ public class Constants
         public static final int pigeonID = 42;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+
 
-        public static final double driveSpeed = 0.8;
-        public static final double slowDriveSpeed = 0.3;
-        public static final double fineDriveSpeed = 0.35;
+        public static final double DRIVE_SPEED = 0.8;
+        public static final double SLOW_DRIVE_SPEED = 0.3;
+        public static final double FINE_DRIVE_SPEED = 0.17;
         
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(20.35); //TODO: This must be tuned to specific robot //20.35

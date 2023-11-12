@@ -63,9 +63,9 @@ public class RobotContainer
      mDrive.setDefaultCommand(
       new Drive(
           mDrive, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.driveSpeed, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.driveSpeed, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.driveSpeed, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.DRIVE_SPEED, 
           () -> robotCentric.getAsBoolean()
         )
     );
@@ -73,8 +73,8 @@ public class RobotContainer
     mDriverController.rightTrigger(0.1).whileTrue(
       new Drive(
           mDrive, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.driveSpeed, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.driveSpeed, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED, 
           () -> mDriverController.getRawAxis(XboxController.Axis.kRightTrigger.value)*-0.1,
           () -> robotCentric.getAsBoolean()
         )
@@ -83,8 +83,8 @@ public class RobotContainer
     mDriverController.leftTrigger(0.1).whileTrue(
       new Drive(
           mDrive, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.driveSpeed, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.driveSpeed, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED, 
           () -> mDriverController.getRawAxis(XboxController.Axis.kLeftTrigger.value)*0.1,
           () -> robotCentric.getAsBoolean()
         )
@@ -94,9 +94,9 @@ public class RobotContainer
     mDriverController.rightBumper().whileTrue(
       new Drive(
         mDrive, 
-        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.slowDriveSpeed, 
-        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.slowDriveSpeed, 
-        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.slowDriveSpeed, 
+        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.SLOW_DRIVE_SPEED, 
+        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.SLOW_DRIVE_SPEED, 
+        () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.SLOW_DRIVE_SPEED, 
         () -> false
       )
     );
@@ -125,8 +125,8 @@ public class RobotContainer
   private void configureBindings() 
   {
     // Fine Positioning
-    mOperatorController.povLeft().or(mOperatorController.povDownLeft()).or(mOperatorController.povUpLeft()).whileTrue(new Drive(mDrive, () -> 0.0, () ->0.1, () -> 0, () -> true));
-    mOperatorController.povRight().or(mOperatorController.povDownRight()).or(mOperatorController.povUpRight()).whileTrue(new Drive(mDrive, () -> 0, () ->-0.1, () -> 0, () -> true));
+    mOperatorController.povLeft().or(mOperatorController.povDownLeft()).or(mOperatorController.povUpLeft()).whileTrue(new Drive(mDrive, () -> 0.0, () ->Constants.SwerveConstants.FINE_DRIVE_SPEED, () -> 0, () -> true));
+    mOperatorController.povRight().or(mOperatorController.povDownRight()).or(mOperatorController.povUpRight()).whileTrue(new Drive(mDrive, () -> 0, () ->-Constants.SwerveConstants.FINE_DRIVE_SPEED, () -> 0, () -> true));
     mOperatorController.povUp().whileTrue(new Drive(mDrive, () -> 0.1, () ->0, () -> 0, () -> true));
     mOperatorController.povDown().whileTrue(new Drive(mDrive, () -> -0.1, () ->0, () -> 0, () -> true));
 
