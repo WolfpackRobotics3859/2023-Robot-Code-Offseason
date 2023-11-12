@@ -151,8 +151,8 @@ public class RobotContainer
     SmartDashboard.putData(new TurnToAngle(mDrive, 0));
 
     //Squaring
-    mDriverController.x().whileTrue(new HoldAngle(90));
-    mDriverController.y().whileTrue(new HoldAngle(0));
+    mDriverController.x().whileTrue(new HoldAngle(mDrive, 90));
+    mDriverController.y().whileTrue(new HoldAngle(mDrive, 0));
     
 
   }
