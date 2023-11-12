@@ -149,6 +149,11 @@ public class RobotContainer
     mOperatorController.leftBumper().whileTrue(new TurnToAngle(mDrive, 0));
     SmartDashboard.putData(new TurnToAngle(mDrive, 0));
 
+    //Squaring
+    mDriverController.x().whileTrue(new HoldAngle(90));
+    mDriverController.y().whileTrue(new HoldAngle(0));
+    
+
   }
 
   public Command getAutonomousCommand() 
