@@ -6,6 +6,7 @@ package frc.robot.commands.autos;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.arm.FireLongCone;
 import frc.robot.commands.arm.Stow;
 import frc.robot.commands.drive.Balance;
@@ -24,7 +25,9 @@ public class RegressionAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new ResetGyro(drivetrain).withTimeout(0.001),
      arm.zeroSensor(),
-     new InstantCommand(() -> {claw.setEngaged(false);}), 
+     new InstantCommand(() -> {claw.setEngaged(true);}), 
+     new WaitCommand(0.3),
+     new InstantCommand(() -> {claw.setEngaged(false);}),
      new FireLongCone(arm),
      new Stow(arm),
      new DriveBack(drivetrain, true, 13.0, false).withTimeout(3.5),

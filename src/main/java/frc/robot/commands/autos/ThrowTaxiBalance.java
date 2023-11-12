@@ -7,6 +7,7 @@ package frc.robot.commands.autos;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.arm.FireLongCone;
+import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Stow;
 import frc.robot.commands.drive.Balance;
 import frc.robot.commands.drive.BalanceBack;
@@ -28,7 +29,7 @@ public class ThrowTaxiBalance extends SequentialCommandGroup {
     addCommands(new ResetGyro(drivetrain).withTimeout(0.001),
      arm.zeroSensor(),
      new InstantCommand(() -> {claw.setEngaged(false);}), 
-     new FireLongCone(arm),
+     new FireShortCone(arm),
      new Stow(arm),
      new DriveBack(drivetrain, false, 0.0, false).withTimeout(4.8),
      new TurnToAngle(drivetrain, 180),

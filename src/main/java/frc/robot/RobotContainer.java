@@ -70,6 +70,26 @@ public class RobotContainer
         )
     );
 
+    mDriverController.rightTrigger(0.1).whileTrue(
+      new Drive(
+          mDrive, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.driveSpeed, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.driveSpeed, 
+          () -> mDriverController.getRawAxis(XboxController.Axis.kRightTrigger.value)*-0.1,
+          () -> robotCentric.getAsBoolean()
+        )
+    );
+
+    mDriverController.leftTrigger(0.1).whileTrue(
+      new Drive(
+          mDrive, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.driveSpeed, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.driveSpeed, 
+          () -> mDriverController.getRawAxis(XboxController.Axis.kLeftTrigger.value)*0.1,
+          () -> robotCentric.getAsBoolean()
+        )
+    );
+
     //Slow Mode
     mDriverController.rightBumper().whileTrue(
       new Drive(
@@ -77,7 +97,7 @@ public class RobotContainer
         () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.slowDriveSpeed, 
         () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.slowDriveSpeed, 
         () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.slowDriveSpeed, 
-        () -> robotCentric.getAsBoolean()
+        () -> false
       )
     );
 

@@ -59,7 +59,7 @@ public class Constants
 
         public static final double driveSpeed = 0.8;
         public static final double slowDriveSpeed = 0.3;
-        public static final double fineDriveSpeed = 0.2;
+        public static final double fineDriveSpeed = 0.35;
         
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(20.35); //TODO: This must be tuned to specific robot //20.35
