@@ -148,9 +148,14 @@ public class RobotContainer
     SmartDashboard.putData(new TurnToAngle(mDrive, 0));
 
     //Squaring
-    mDriverController.x().whileTrue(new HoldAngle(mDrive, 90,
+    mDriverController.b().whileTrue(new HoldAngle(mDrive, 90,
     () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED,
     () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED));
+    //Squaring
+    mDriverController.x().whileTrue(new HoldAngle(mDrive, 270,
+    () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED,
+    () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED));
+  
     mDriverController.y().whileTrue(new HoldAngle(mDrive, 0,
     () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED,
     () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED));    
