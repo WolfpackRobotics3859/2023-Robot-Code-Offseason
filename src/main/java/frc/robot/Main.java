@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 /**
  * @brief Top level class for the robot program.
  */
-public final class Main 
+public final class Main
 {
 
   /**
