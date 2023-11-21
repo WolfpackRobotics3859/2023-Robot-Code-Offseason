@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.util.SwerveModuleConstants;
@@ -116,22 +117,35 @@ public class Constants
         public static final double angleKF = 0.0;
     
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.01; //TODO: This must be tuned to specific robot
+        public static final double driveKP = 7.5291; //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
     
         /* Drive Motor Characterization Values 
          * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
-        public static final double driveKS = (0.18342 / 12); //TODO: This must be tuned to specific robot
-        public static final double driveKV = (2.2214 / 12);
-        public static final double driveKA = (0.38641 / 12);
+        public static final double driveKS = (0.1528 / 12); //TODO: This must be tuned to specific robot
+        public static final double driveKV = (1.5033 / 12);
+        public static final double driveKA = (0.15674 / 12);
     
         /* Swerve Profiling Values */
         /** Meters per Second */
         public static final double maxSpeed = 2.5; //TODO: This must be tuned to specific robot
         /** Radians per Second */
         public static final double maxAngularVelocity = 10.0; //TODO: This must be tuned to specific robot
+
+        public static final double maxAutoSpeed = 1;
+        public static final double maxAutoAcceleration = 1;
+    
+        public static final double kPXController = 1;
+        public static final double kPYController = 1;
+        public static final double kPThetaController = 1;
+    
+        /* Constraint for the motion profilied robot angle controller */
+        public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
+            new TrapezoidProfile.Constraints(
+                Math.PI, Math.PI);
+    
     
         /* Neutral Modes */
         public static final NeutralMode angleNeutralMode = NeutralMode.Coast;

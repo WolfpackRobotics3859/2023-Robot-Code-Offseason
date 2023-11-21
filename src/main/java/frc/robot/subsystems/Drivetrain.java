@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.SwerveModule;
 import frc.robot.Constants.SwerveConstants;
+import frc.lib.util.SwerveModuleConstants;
 import frc.robot.Constants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -87,10 +88,6 @@ public class Drivetrain extends SubsystemBase {
         }
     }    
 
-    public void driveCircle(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-       //TODO
-  }   
-
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstants.maxSpeed);
@@ -100,6 +97,14 @@ public class Drivetrain extends SubsystemBase {
         }
     }    
 
+    public void setModuleStates(SwerveModuleState[] desiredStates, boolean openLoop) {
+      //SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstants.maxSpeed);
+      
+      for(SwerveModule mod : mSwerveMods){
+          mod.setDesiredState(desiredStates[mod.moduleNumber], openLoop);
+      }
+  }
+
     public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
         setModuleStates(
           Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(chassisSpeeds));
@@ -107,7 +112,6 @@ public class Drivetrain extends SubsystemBase {
 
     public Pose2d getPose() {
         return swerveOdometry.getEstimatedPosition();
-        //return new Pose2d(swerveOdometry.getEstimatedPosition().getTranslation(), getYaw());
     }
 
     public ChassisSpeeds getFieldVelocity() {
@@ -162,9 +166,6 @@ public class Drivetrain extends SubsystemBase {
         }
     }
 
-    public void sideDrive(double way) {
-      drive(new Translation2d(0, 0.3 * way), 0, false, true);
-    }
     public void setAlliance(Alliance alliance) {
         this.alliance = alliance;
         wasOdometrySeeded = false;

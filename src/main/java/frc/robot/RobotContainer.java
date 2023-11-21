@@ -23,6 +23,7 @@ import frc.robot.commands.arm.FireLow;
 import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Intake;
 import frc.robot.commands.arm.Stow;
+import frc.robot.commands.autos.ModuleTest;
 import frc.robot.commands.autos.RegressionAuto;
 import frc.robot.commands.autos.Throw;
 import frc.robot.commands.autos.ThrowTaxi;
@@ -148,6 +149,8 @@ public class RobotContainer
     //Turn to angle
     mOperatorController.leftBumper().whileTrue(new TurnToAngle(mDrive, 0));
     SmartDashboard.putData(new TurnToAngle(mDrive, 0));
+
+    SmartDashboard.putData(new ModuleTest(mDrive));
 
   }
 
