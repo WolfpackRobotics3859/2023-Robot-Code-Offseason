@@ -21,11 +21,11 @@ public class ModuleTest extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SwerveModuleState[] states = {new SwerveModuleState(1, new Rotation2d()),
-                                    new SwerveModuleState(1, new Rotation2d()),
-                                    new SwerveModuleState(1, new Rotation2d()),
-                                    new SwerveModuleState(1, new Rotation2d())};
-    mDrivetrain.setModuleStates(states, true);
+    SwerveModuleState[] states = {new SwerveModuleState(0.1, new Rotation2d()),
+                                    new SwerveModuleState(0.1, new Rotation2d()),
+                                    new SwerveModuleState(0.1, new Rotation2d()),
+                                    new SwerveModuleState(0.1, new Rotation2d())};
+    mDrivetrain.setModuleStates(states, false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
