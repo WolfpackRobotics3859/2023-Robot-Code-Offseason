@@ -4,17 +4,17 @@
 
 package frc.robot;
 
-import java.util.function.DoubleSupplier;
-
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.Drive;
 import frc.robot.commands.drive.ResetGyro;
+import frc.robot.commands.drive.StopRobot;
 import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.arm.FireLongCone;
@@ -23,10 +23,6 @@ import frc.robot.commands.arm.FireLow;
 import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Intake;
 import frc.robot.commands.arm.Stow;
-import frc.robot.commands.autos.RegressionAuto;
-import frc.robot.commands.autos.Throw;
-import frc.robot.commands.autos.ThrowTaxi;
-import frc.robot.commands.autos.ThrowTaxiBalance;
 import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -57,8 +53,11 @@ public class RobotContainer
 
   public RobotContainer() 
   {
+    mChooser = AutoBuilder.buildAutoChooser();
+
+
     SmartDashboard.putData(mDrive);
-    SmartDashboard.putData(mChooser);
+    SmartDashboard.putData("Auto Chooser", mChooser);
     //Regular Driving
      mDrive.setDefaultCommand(
       new Drive(
@@ -114,10 +113,13 @@ public class RobotContainer
     SmartDashboard.putData(new Open(mClaw));
     
     //Auto Chooser
-    mChooser.setDefaultOption("ThrowTaxiBalance", new ThrowTaxiBalance(mDrive, mArm, mClaw));
-    mChooser.addOption("ThrowTaxi", new ThrowTaxi(mDrive, mArm, mClaw));
-    mChooser.addOption("Throw", new Throw(mDrive, mArm, mClaw));
-    mChooser.addOption("Regression", new RegressionAuto(mDrive, mArm, mClaw));
+    // mChooser.setDefaultOption("ThrowTaxiBalance", new ThrowTaxiBalance(mDrive, mArm, mClaw));
+    // mChooser.addOption("ThrowTaxi", new ThrowTaxi(mDrive, mArm, mClaw));
+    // mChooser.addOption("Throw", new Throw(mDrive, mArm, mClaw));
+    // mChooser.addOption("Regression", new RegressionAuto(mDrive, mArm, mClaw));
+
+    NamedCommands.registerCommand("stop", new StopRobot(mDrive));
+    
     
     configureBindings();
   }

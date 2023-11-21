@@ -16,19 +16,18 @@ import frc.lib.util.SwerveModuleConstants;
 /** Add your docs here. */
 public class Constants 
 {
-
     public static class CONTROLLERS
     {
         public static int DRIVER_CONTROLLER_ID = 0;
         public static int OPERATOR_CONTROLLER_ID = 1;
 
-        // Defining named Axes
-        static class DRIVER_AXES
-        {
-            public static final int TRANSLATION_AXIS = XboxController.Axis.kLeftY.value;
-            public static final int STRAFE_AXIS = XboxController.Axis.kLeftX.value;
-            public static final int ROTATION_AXIS = XboxController.Axis.kRightX.value;
-        }
+    // Defining named Axes
+    static class DRIVER_AXES
+    {
+        public static final int TRANSLATION_AXIS = XboxController.Axis.kLeftY.value;
+        public static final int STRAFE_AXIS = XboxController.Axis.kLeftX.value;
+        public static final int ROTATION_AXIS = XboxController.Axis.kRightX.value;
+    }
     }
 
     public static class CLAW
@@ -49,11 +48,11 @@ public class Constants
 
         public static final int MM_ACCELERATION = 4500;
         public static final int MM_CRUISE = 600;
-        public static final int MM_SMOOTHING = 2;
-        
+        public static final int MM_SMOOTHING = 2;  
     }
 
-    public static class SwerveConstants {
+    public static class SwerveConstants 
+    {
         public static final int pigeonID = 42;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+
 
@@ -78,8 +77,7 @@ public class Constants
             new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
-            new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0)
-            );
+            new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
     
         /* Module Gear Ratios */
         public static final double driveGearRatio = (7.13 / 1.0);
@@ -121,11 +119,11 @@ public class Constants
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
     
-        /* Drive Motor Characterization Values 
+        /* Drive Motor Characterization Values dri
          * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
-        public static final double driveKS = (0.18342 / 12); //TODO: This must be tuned to specific robot
-        public static final double driveKV = (2.2214 / 12);
-        public static final double driveKA = (0.38641 / 12);
+        public static final double driveKS = (0.1528 / 12); //TODO: This must be tuned to specific robot
+        public static final double driveKV = (1.5033 / 12);
+        public static final double driveKA = (0.15674 / 12);
     
         /* Swerve Profiling Values */
         /** Meters per Second */

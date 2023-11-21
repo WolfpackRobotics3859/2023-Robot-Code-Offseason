@@ -4,15 +4,15 @@
 
 package frc.robot.commands.drive;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
-public class BalanceBack extends Command {
-  /** Creates a new Balance. */
-  Drivetrain mDrivetrain;
-  public BalanceBack(Drivetrain drivetrain) {
+public class StopRobot extends Command {
+  /** Creates a new StopRobot. */
+  private Drivetrain mDrivetrain;
+  public StopRobot(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     mDrivetrain = drivetrain;
     addRequirements(mDrivetrain);
@@ -24,20 +24,13 @@ public class BalanceBack extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    double angle = mDrivetrain.gyro.getRoll();
-    double output = 0.175 * (angle/Math.abs(angle));
-
-    if(Math.abs(angle) > 11.0){
-      mDrivetrain.drive(new Translation2d(output, 0).times(Constants.SwerveConstants.maxSpeed), 0, true, true);
-    } else {
-      mDrivetrain.drive(new Translation2d(0, 0), 0, true, true);
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    mDrivetrain.drive(new Translation2d(0, 0), 0, false, false);
+  }
 
   // Returns true when the command should end.
   @Override

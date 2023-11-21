@@ -7,10 +7,10 @@ package frc.robot.commands.climb;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climb;
 
-public class JoystickControl extends CommandBase {
+public class JoystickControl extends Command {
   private DoubleSupplier mPercentSupplier;
   private Climb mClimb;
   /** Creates a new JoystickControl. */

@@ -5,11 +5,11 @@
 package frc.robot.commands.drive;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
-public class Balance extends CommandBase {
+public class Balance extends Command {
   /** Creates a new Balance. */
   Drivetrain mDrivetrain;
   public Balance(Drivetrain drivetrain) {

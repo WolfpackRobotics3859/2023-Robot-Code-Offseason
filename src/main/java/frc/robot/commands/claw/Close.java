@@ -4,10 +4,10 @@
 
 package frc.robot.commands.claw;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Claw;
 
-public class Close extends CommandBase 
+public class Close extends Command 
 {
   private Claw mClaw;
 
