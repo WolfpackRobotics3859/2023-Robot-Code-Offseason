@@ -4,10 +4,10 @@
 
 package frc.robot.commands.arm;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
-public class Stow extends CommandBase
+public class Stow extends Command
 {
   private Arm mArm;
   /** Creates a new Stow. */

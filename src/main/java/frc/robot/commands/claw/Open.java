@@ -4,10 +4,10 @@
 
 package frc.robot.commands.claw;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Claw;
 
-public class Open extends CommandBase {
+public class Open extends Command {
   private Claw mClaw;
   /** Creates a new ClawOpenCommand. */
   public Open(Claw claw) 

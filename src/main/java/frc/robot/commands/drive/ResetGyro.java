@@ -5,10 +5,10 @@
 package frc.robot.commands.drive;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
 
-public class ResetGyro extends CommandBase {
+public class ResetGyro extends Command {
   /** Creates a new ResetGyroCommand. */
   private Drivetrain driveSubsystem;
   public ResetGyro(Drivetrain driveSubsystem) {

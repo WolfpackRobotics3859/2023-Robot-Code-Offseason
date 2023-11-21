@@ -10,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -72,7 +72,7 @@ public class Arm extends SubsystemBase
     SmartDashboard.setDefaultNumber("Arm Motion 4 Segment 2 Ending Position", 175);
   }
 
-  public CommandBase zeroSensor()
+  public Command zeroSensor()
   {
     return runOnce(
       () -> {

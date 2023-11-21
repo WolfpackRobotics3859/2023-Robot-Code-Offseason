@@ -5,10 +5,10 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
-public class FireLongCone extends CommandBase 
+public class FireLongCone extends Command 
 {
   private Arm mArm;
   private double mSeg1Speed, mSeg2Speed, mSeg1End, mSeg2End;
