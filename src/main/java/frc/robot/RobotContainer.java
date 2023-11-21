@@ -23,6 +23,7 @@ import frc.robot.commands.arm.FireLow;
 import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Intake;
 import frc.robot.commands.arm.Stow;
+import frc.robot.commands.autos.FollowPathTest;
 import frc.robot.commands.autos.ModuleTest;
 import frc.robot.commands.autos.RegressionAuto;
 import frc.robot.commands.autos.Throw;
@@ -64,9 +65,9 @@ public class RobotContainer
      mDrive.setDefaultCommand(
       new Drive(
           mDrive, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS), 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS), 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-1, 
           () -> robotCentric.getAsBoolean()
         )
     );
@@ -119,6 +120,7 @@ public class RobotContainer
     mChooser.addOption("ThrowTaxi", new ThrowTaxi(mDrive, mArm, mClaw));
     mChooser.addOption("Throw", new Throw(mDrive, mArm, mClaw));
     mChooser.addOption("Regression", new RegressionAuto(mDrive, mArm, mClaw));
+    mChooser.addOption("Piss", new FollowPathTest(mDrive));
     
     configureBindings();
   }

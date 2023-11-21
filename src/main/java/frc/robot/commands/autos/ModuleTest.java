@@ -15,6 +15,7 @@ public class ModuleTest extends CommandBase {
   /** Creates a new ModuleTest. */
   public ModuleTest(Drivetrain drivetrain) {
     mDrivetrain = drivetrain;
+    addRequirements(mDrivetrain);
   }
 
   // Called when the command is initially scheduled.
