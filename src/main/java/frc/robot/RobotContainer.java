@@ -64,9 +64,9 @@ public class RobotContainer
      mDrive.setDefaultCommand(
       new Drive(
           mDrive, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED, 
-          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-SwerveConstants.DRIVE_SPEED, 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS), 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS), 
+          () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.ROTATION_AXIS)*-1, 
           () -> robotCentric.getAsBoolean()
         )
     );
@@ -115,13 +115,8 @@ public class RobotContainer
     SmartDashboard.putData(new Open(mClaw));
     
     //Auto Chooser
-    // mChooser.setDefaultOption("ThrowTaxiBalance", new ThrowTaxiBalance(mDrive, mArm, mClaw));
-    // mChooser.addOption("ThrowTaxi", new ThrowTaxi(mDrive, mArm, mClaw));
-    // mChooser.addOption("Throw", new Throw(mDrive, mArm, mClaw));
-    // mChooser.addOption("Regression", new RegressionAuto(mDrive, mArm, mClaw));
-
     NamedCommands.registerCommand("stop", new StopRobot(mDrive));
-    
+
     
     configureBindings();
   }
@@ -153,6 +148,8 @@ public class RobotContainer
     mOperatorController.leftBumper().whileTrue(new TurnToAngle(mDrive, 0));
     SmartDashboard.putData(new TurnToAngle(mDrive, 0));
 
+    SmartDashboard.putData(new ModuleTest(mDrive));
+    
     //Squaring
     mDriverController.b().whileTrue(new HoldAngle(mDrive, 90,
     () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED,

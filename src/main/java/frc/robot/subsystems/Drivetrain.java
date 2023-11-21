@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import frc.robot.SwerveModule;
+import frc.robot.Constants.SwerveConstants;
+import frc.lib.util.SwerveModuleConstants;
 import frc.robot.Constants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -83,6 +85,25 @@ public class Drivetrain extends SubsystemBase {
     {
       SwerveModuleState[] swerveModuleStates = Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(speeds);
 
+    /* Used by SwerveControllerCommand in Auto */
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstants.maxSpeed);
+        
+        for(SwerveModule mod : mSwerveMods){
+            mod.setDesiredState(desiredStates[mod.moduleNumber], false);
+        }
+    }    
+
+    public void setModuleStates(SwerveModuleState[] desiredStates, boolean openLoop) {
+      //SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstants.maxSpeed);
+      
+      for(SwerveModule mod : mSwerveMods){
+          mod.setDesiredState(desiredStates[mod.moduleNumber], openLoop);
+      }
+  }
+
+    public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+      setModuleStates(Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(chassisSpeeds));
       SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.maxSpeed);
 
       for(SwerveModule mod : mSwerveMods)
@@ -120,11 +141,6 @@ public class Drivetrain extends SubsystemBase {
         mod.setDesiredState(desiredStates[mod.moduleNumber], false);
       }
     }    
-
-    public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) 
-    {
-      setModuleStates(Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(chassisSpeeds));
-    }
 
     public Pose2d getPose() 
     {
@@ -191,16 +207,12 @@ public class Drivetrain extends SubsystemBase {
       return gyro.getYaw();
     }
 
-    public void resetModulesToAbsolute(){
+    public void resetModulesToAbsolute()
+    {
       for(SwerveModule mod : mSwerveMods)
       {
         mod.resetToAbsolute();
       }
-    }
-
-    public void sideDrive(double way) 
-    {
-      drive(new Translation2d(0, 0.3 * way), 0, false, true);
     }
 
     @Override
