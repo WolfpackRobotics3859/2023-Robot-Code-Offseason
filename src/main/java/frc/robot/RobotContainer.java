@@ -6,7 +6,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,17 +18,10 @@ import frc.robot.commands.drive.ResetGyro;
 import frc.robot.commands.drive.StopRobot;
 import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.Constants.SwerveConstants;
-// import frc.robot.commands.arm.FireLongCone;
-// import frc.robot.commands.arm.FireLongCube;
 import frc.robot.commands.arm.FireLow;
-// import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Intake;
 import frc.robot.commands.arm.Stow;
 import frc.robot.subsystems.Arm;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.claw.Close;
 import frc.robot.commands.claw.Open;
 import frc.robot.subsystems.Claw;
@@ -76,8 +68,6 @@ public class RobotContainer
         )
     );
 
-    SmartDashboard.putData("Arm", mArm);
-
     mDriverController.rightTrigger(0.1).whileTrue(
       new Drive(
           mDrive, 
@@ -108,18 +98,6 @@ public class RobotContainer
         () -> false
       )
     );
-
-    //Climb (disabled until we have a climb again)
-    //mClimb.setDefaultCommand(new JoystickControl(mClimb, () -> mOperatorController.getRawAxis(XboxController.Axis.kLeftX.value)));
-  
-    // Logic for this should be done inside the subsystem instead.
-    // Trigger armsEngagedTrigger = new Trigger(mClaw::getEngaged);
-    // armsEngagedTrigger.whileFalse(new Open(mClaw));
-    // armsEngagedTrigger.whileTrue(new Close(mClaw));
-    
-    // SmartDashboard.putData(mClaw);
-    SmartDashboard.putData(new Close(mClaw));
-    SmartDashboard.putData(new Open(mClaw));
     
     configureBindings();
   }
