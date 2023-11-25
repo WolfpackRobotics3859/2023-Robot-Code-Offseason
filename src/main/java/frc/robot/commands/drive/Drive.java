@@ -36,7 +36,6 @@ public class Drive extends Command
         double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), 0.03);
         double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), 0.03);
         
-
         /* Drive */
         s_Swerve.drive(
             new Translation2d(translationVal, strafeVal).times(SwerveConstants.maxSpeed), 

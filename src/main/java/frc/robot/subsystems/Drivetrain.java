@@ -1,23 +1,15 @@
 package frc.robot.subsystems;
 
 import frc.robot.SwerveModule;
-import frc.robot.Constants.SwerveConstants;
-import frc.lib.util.SwerveModuleConstants;
 import frc.robot.Constants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.PPLibTelemetry;
-import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -85,6 +77,16 @@ public class Drivetrain extends SubsystemBase {
     {
       SwerveModuleState[] swerveModuleStates = Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(speeds);
 
+      SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.maxSpeed);
+
+      for(SwerveModule mod : mSwerveMods)
+      {
+        mod.setDesiredState(swerveModuleStates[mod.moduleNumber], false);
+        SmartDashboard.putNumber("Module " + mod.moduleNumber + " Speed Setpoint: ", swerveModuleStates[mod.moduleNumber].speedMetersPerSecond);
+        SmartDashboard.putNumber("Module " + mod.moduleNumber + " Angle Setpoint: ", swerveModuleStates[mod.moduleNumber].angle.getDegrees());
+      }
+    }
+
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstants.maxSpeed);
@@ -102,18 +104,6 @@ public class Drivetrain extends SubsystemBase {
       }
   }
 
-    public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-      setModuleStates(Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(chassisSpeeds));
-      SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.maxSpeed);
-
-      for(SwerveModule mod : mSwerveMods)
-      {
-        mod.setDesiredState(swerveModuleStates[mod.moduleNumber], false);
-        SmartDashboard.putNumber("Module " + mod.moduleNumber + " Speed Setpoint: ", swerveModuleStates[mod.moduleNumber].speedMetersPerSecond);
-        SmartDashboard.putNumber("Module " + mod.moduleNumber + " Angle Setpoint: ", swerveModuleStates[mod.moduleNumber].angle.getDegrees());
-      }
-    }
-
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
     {
       SwerveModuleState[] swerveModuleStates =
@@ -128,17 +118,6 @@ public class Drivetrain extends SubsystemBase {
         mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         SmartDashboard.putNumber("Module " + mod.moduleNumber + " Speed Setpoint: ", swerveModuleStates[mod.moduleNumber].speedMetersPerSecond);
         SmartDashboard.putNumber("Module " + mod.moduleNumber + " Angle Setpoint: ", swerveModuleStates[mod.moduleNumber].angle.getDegrees());
-      }
-    }    
-
-    /* Used by SwerveControllerCommand in Auto */
-    public void setModuleStates(SwerveModuleState[] desiredStates)
-    {
-      SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstants.maxSpeed);
-      
-      for(SwerveModule mod : mSwerveMods)
-      {
-        mod.setDesiredState(desiredStates[mod.moduleNumber], false);
       }
     }    
 

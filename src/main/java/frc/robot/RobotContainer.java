@@ -19,10 +19,10 @@ import frc.robot.commands.drive.ResetGyro;
 import frc.robot.commands.drive.StopRobot;
 import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.commands.arm.FireLongCone;
-import frc.robot.commands.arm.FireLongCube;
+// import frc.robot.commands.arm.FireLongCone;
+// import frc.robot.commands.arm.FireLongCube;
 import frc.robot.commands.arm.FireLow;
-import frc.robot.commands.arm.FireShortCone;
+// import frc.robot.commands.arm.FireShortCone;
 import frc.robot.commands.arm.Intake;
 import frc.robot.commands.arm.Stow;
 import frc.robot.subsystems.Arm;
@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.claw.Close;
 import frc.robot.commands.claw.Open;
 import frc.robot.subsystems.Claw;
-import frc.robot.subsystems.Climb;
+// import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drivetrain;
 
 public class RobotContainer 
@@ -46,7 +46,6 @@ public class RobotContainer
   private final Arm mArm = new Arm();
   private final Drivetrain mDrive = new Drivetrain();
   private final Claw mClaw = new Claw();
-  private final Climb mClimb = new Climb();
   
   //Auto Sendable Chooser
   SendableChooser<Command> mChooser = new SendableChooser<Command>();
@@ -55,10 +54,16 @@ public class RobotContainer
 
   public RobotContainer() 
   {
+        //Auto Chooser
+    NamedCommands.registerCommand("stow", new Stow(mArm));
+    NamedCommands.registerCommand("intake", new Intake(mArm));
+    NamedCommands.registerCommand("fire", new FireLow(mArm));
+    NamedCommands.registerCommand("open",  new Open(mClaw));
+    NamedCommands.registerCommand("close", new Close(mClaw));
+    NamedCommands.registerCommand("stop", new StopRobot(mDrive));
+
     mChooser = AutoBuilder.buildAutoChooser();
 
-
-    SmartDashboard.putData(mDrive);
     SmartDashboard.putData("Auto Chooser", mChooser);
     //Regular Driving
      mDrive.setDefaultCommand(
@@ -70,6 +75,8 @@ public class RobotContainer
           () -> robotCentric.getAsBoolean()
         )
     );
+
+    SmartDashboard.putData("Arm", mArm);
 
     mDriverController.rightTrigger(0.1).whileTrue(
       new Drive(
@@ -106,17 +113,13 @@ public class RobotContainer
     //mClimb.setDefaultCommand(new JoystickControl(mClimb, () -> mOperatorController.getRawAxis(XboxController.Axis.kLeftX.value)));
   
     // Logic for this should be done inside the subsystem instead.
-    Trigger armsEngagedTrigger = new Trigger(mClaw::getEngaged);
-    armsEngagedTrigger.whileFalse(new Open(mClaw));
-    armsEngagedTrigger.whileTrue(new Close(mClaw));
+    // Trigger armsEngagedTrigger = new Trigger(mClaw::getEngaged);
+    // armsEngagedTrigger.whileFalse(new Open(mClaw));
+    // armsEngagedTrigger.whileTrue(new Close(mClaw));
     
-    SmartDashboard.putData(mClaw);
+    // SmartDashboard.putData(mClaw);
     SmartDashboard.putData(new Close(mClaw));
     SmartDashboard.putData(new Open(mClaw));
-    
-    //Auto Chooser
-    NamedCommands.registerCommand("stop", new StopRobot(mDrive));
-
     
     configureBindings();
   }
@@ -129,17 +132,17 @@ public class RobotContainer
     mOperatorController.povUp().whileTrue(new HoldAngle(mDrive, 0, () -> Constants.SwerveConstants.FINE_DRIVE_SPEED, () -> 0));
     mOperatorController.povDown().whileTrue(new HoldAngle(mDrive, 0, () -> -Constants.SwerveConstants.FINE_DRIVE_SPEED, () -> 0));
     
-    // Claw Toggle
-    mOperatorController.rightBumper().onTrue(new InstantCommand(() -> {mClaw.setEngaged(!mClaw.getEngaged());}));
+    // // Claw Toggle
+    // mOperatorController.rightBumper().onTrue(new InstantCommand(() -> {mClaw.setEngaged(!mClaw.getEngaged());}));
 
-    // Arm Control
-    mOperatorController.leftTrigger(0.1).onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireShortCone(mArm).andThen(new Stow(mArm))));
-    mOperatorController.rightTrigger(0.1).onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireLongCone(mArm).andThen(new Stow(mArm))));
-    mOperatorController.y().onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireLongCube(mArm).andThen(new Stow(mArm))));
-    mOperatorController.b().onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireLow(mArm).andThen(new Stow(mArm))));
+    // // Arm Control
+    // mOperatorController.leftTrigger(0.1).onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireShortCone(mArm).andThen(new Stow(mArm))));
+    // mOperatorController.rightTrigger(0.1).onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireLongCone(mArm).andThen(new Stow(mArm))));
+    // mOperatorController.y().onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireLongCube(mArm).andThen(new Stow(mArm))));
+    // mOperatorController.b().onTrue(new SequentialCommandGroup(new InstantCommand(() -> {mClaw.setEngaged(false);}), new WaitCommand(0.1), new FireLow(mArm).andThen(new Stow(mArm))));
     
-    //Intake
-    mOperatorController.x().whileTrue(new Intake(mArm));
+    // //Intake
+    // mOperatorController.x().whileTrue(new Intake(mArm));
 
     //Reset Gyro
     mDriverController.a().onTrue(new ResetGyro(mDrive));
@@ -147,8 +150,6 @@ public class RobotContainer
     //Turn to angle
     mOperatorController.leftBumper().whileTrue(new TurnToAngle(mDrive, 0));
     SmartDashboard.putData(new TurnToAngle(mDrive, 0));
-
-    SmartDashboard.putData(new ModuleTest(mDrive));
     
     //Squaring
     mDriverController.b().whileTrue(new HoldAngle(mDrive, 90,
@@ -162,6 +163,10 @@ public class RobotContainer
     mDriverController.y().whileTrue(new HoldAngle(mDrive, 0,
     () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.TRANSLATION_AXIS)*SwerveConstants.DRIVE_SPEED,
     () -> mDriverController.getRawAxis(Constants.CONTROLLERS.DRIVER_AXES.STRAFE_AXIS)*SwerveConstants.DRIVE_SPEED));    
+
+
+    SmartDashboard.putData("Intake Command", new Intake(mArm));
+    SmartDashboard.putData("Stow", new Stow(mArm));
   }
 
   public Command getAutonomousCommand() 
